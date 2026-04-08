@@ -8,9 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "hash-password": "node scripts/hash-password.js",
-    "seed:admin": "tsx scripts/seed-admin.ts",
     "seed:demo": "tsx scripts/seed-demo.ts",
-    "seed:all": "npm run seed:admin && npm run seed:demo"
+    "seed:all": "npm run seed:demo"
   },
   "dependencies": {
     "bcryptjs": "^3.0.3",
