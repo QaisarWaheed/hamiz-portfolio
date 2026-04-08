@@ -1,7 +1,8 @@
 import path from "node:path";
 import { config } from "dotenv";
 import mongoose from "mongoose";
-import { demoProjects, demoTestimonials } from "../lib/demo-content";
+import { demoAbout, demoProjects, demoTestimonials } from "../lib/demo-content";
+import About from "../models/About";
 import Project from "../models/Project";
 import Testimonial from "../models/Testimonial";
 
@@ -46,8 +47,18 @@ async function seed() {
     }
   }
 
+  const aboutBefore = await About.exists({ key: "main" });
+  await About.findOneAndUpdate(
+    { key: "main" },
+    { $setOnInsert: { key: "main", ...demoAbout } },
+    { upsert: true }
+  );
+  const aboutInserted = !aboutBefore;
+
   console.log(
-    `Done. Added ${projectsAdded} project(s), ${testimonialsAdded} testimonial(s) (skipped duplicates).`
+    `Done. Added ${projectsAdded} project(s), ${testimonialsAdded} testimonial(s)` +
+      (aboutInserted ? ", about block (initial)." : ", about unchanged.") +
+      " Skipped duplicate projects/testimonials."
   );
   await mongoose.disconnect();
 }

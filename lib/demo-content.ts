@@ -59,6 +59,15 @@ export const demoProjects = [
   },
 ];
 
+/** Single-site About block (MongoDB key `main`). */
+export const demoAbout = {
+  headline: "Hamiz Khan",
+  bio: "Video editor crafting cinematic stories from raw footage. Based on emotion, rhythm, and picture-perfect pacing.",
+  email: "hello@hamizkhan.com",
+  instagram: "",
+  youtube: "",
+};
+
 export const demoTestimonials = [
   {
     _id: "659000000000000000000011",
