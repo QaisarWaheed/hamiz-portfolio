@@ -9,12 +9,22 @@ const cards = [
   },
   {
     title: "Testimonials",
-    desc: "Update client quotes for the homepage slider.",
+    desc: "Client quotes on the homepage grid.",
     href: "/admin/testimonials",
   },
   {
+    title: "Services",
+    desc: "Edit the three homepage service rows.",
+    href: "/admin/services",
+  },
+  {
+    title: "Pricing",
+    desc: "Edit the three pricing tiers and feature lists.",
+    href: "/admin/pricing",
+  },
+  {
     title: "About & contact copy",
-    desc: "Edit headline, bio, and social links on the about section.",
+    desc: "Edit headline, bio, and email for the about block and contact mailto.",
     href: "/admin/about",
   },
 ];
@@ -27,7 +37,7 @@ export default function AdminDashboardPage() {
         <p className="mt-2 max-w-xl text-sm text-muted">
           Content is served from MongoDB. Thumbnail uploads go through Cloudinary.
         </p>
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {cards.map((c) => (
             <Link
               key={c.href}

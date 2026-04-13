@@ -5,6 +5,7 @@ const contactSchema = new Schema(
     name: { type: String, required: true },
     email: { type: String, required: true },
     message: { type: String, required: true },
+    offerInterest: { type: String, default: "" },
   },
   { timestamps: true }
 );

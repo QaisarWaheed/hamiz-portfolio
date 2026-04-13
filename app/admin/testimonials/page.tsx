@@ -1,7 +1,7 @@
 "use client";
 
 import AdminShell from "@/components/AdminShell";
-import type { TestimonialItem } from "@/components/Testimonials";
+import type { TestimonialItem } from "@/components/landing/LandingTestimonials";
 import { useEffect, useState } from "react";
 
 const empty = { name: "", role: "", message: "" };
@@ -72,7 +72,7 @@ export default function AdminTestimonialsPage() {
       <div className="space-y-10">
         <div>
           <h1 className="text-2xl font-semibold text-main">Testimonials</h1>
-          <p className="mt-1 text-sm text-muted">These power the homepage slider.</p>
+          <p className="mt-1 text-sm text-muted">These power the homepage testimonials grid.</p>
         </div>
 
         <form

@@ -1,24 +1,37 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import "./editorial.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  weight: ["300", "400", "500"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const fraunces = Fraunces({
   subsets: ["latin"],
+  variable: "--font-fraunces",
+  display: "swap",
+  weight: ["300", "400", "500", "600"],
+  style: ["normal", "italic"],
+});
+
+const jetbrains = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains",
+  display: "swap",
+  weight: ["400", "500"],
 });
 
 export const metadata: Metadata = {
-  title: "Hamiz Khan — Cinematic Video Editor",
+  title: "Hamiz Khan — Video Editor",
   description:
-    "Premium video editing and cinematic storytelling. Hamiz Khan turns raw footage into emotional, polished films.",
+    "Freelance video editor. Top Rated on Upwork. Documentaries, explainers, and face-cam edits from Multan, Pakistan.",
   openGraph: {
-    title: "Hamiz Khan — Cinematic Video Editor",
-    description: "Cinematic video editing portfolio",
+    title: "Hamiz Khan — Video Editor",
+    description: "Video editing portfolio",
   },
 };
 
@@ -30,9 +43,13 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable} h-full antialiased`}
     >
-      <body className="min-h-full font-sans flex flex-col">{children}</body>
+      <body
+        className={`${inter.className} min-h-full flex flex-col font-light`}
+      >
+        {children}
+      </body>
     </html>
   );
 }
