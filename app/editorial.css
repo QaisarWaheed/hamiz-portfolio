@@ -134,27 +134,49 @@
 .ed-hero-bottom {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 48px;
+  gap: 16px;
   margin-top: 96px;
   padding-top: 40px;
   border-top: 1px solid var(--rule);
 }
 
-.ed-hero-bottom .stat .num {
+.ed-hero-stat-card {
+  border: 1px solid var(--rule);
+  background: rgba(255, 255, 255, 0.025);
+  padding: 28px 24px 32px;
+  min-height: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  transition: border-color 0.25s ease, background 0.25s ease;
+}
+
+.ed-hero-stat-card:hover {
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--rule));
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ed-hero-stat-card .num {
   font-family: var(--font-fraunces), ui-serif, Georgia, serif;
   font-size: 48px;
   font-weight: 400;
+  line-height: 1.1;
+  color: var(--ink);
+  font-variant-numeric: tabular-nums;
 }
 
-.ed-hero-bottom .stat .num em {
+.ed-hero-stat-card .num em {
   color: var(--accent);
   font-style: normal;
+  margin-right: 0.15em;
 }
 
-.ed-hero-bottom .stat p {
+.ed-hero-stat-card p {
   color: var(--ink-dim);
   font-size: 13px;
-  margin-top: 8px;
+  margin-top: 14px;
+  line-height: 1.5;
+  max-width: 32ch;
 }
 
 @media (max-width: 768px) {

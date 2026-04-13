@@ -1,3 +1,5 @@
+import HeroStats from "@/components/landing/HeroStats";
+
 export default function LandingHero() {
   return (
     <header className="ed-hero">
@@ -26,26 +28,7 @@ export default function LandingHero() {
           one cut at a time.
         </h1>
 
-        <div className="ed-hero-bottom">
-          <div className="stat">
-            <div className="num">
-              <em>[SAMPLE]</em> 120+
-            </div>
-            <p>Projects delivered across documentary, interview and explainer formats.</p>
-          </div>
-          <div className="stat">
-            <div className="num">
-              <em>[SAMPLE]</em> 100%
-            </div>
-            <p>Job Success Score on Upwork. Top Rated status maintained.</p>
-          </div>
-          <div className="stat">
-            <div className="num">
-              <em>[SAMPLE]</em> 4+
-            </div>
-            <p>Years editing long-form content for international YouTube channels.</p>
-          </div>
-        </div>
+        <HeroStats />
       </div>
     </header>
   );
