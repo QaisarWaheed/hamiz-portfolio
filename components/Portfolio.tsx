@@ -21,9 +21,11 @@ function isDirectVideo(url: string) {
 function ProjectCard({
   item,
   onOpen,
+  index,
 }: {
   item: ProjectItem;
   onOpen: () => void;
+  index: number;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const canPreview = isDirectVideo(item.videoUrl);
@@ -35,7 +37,8 @@ function ProjectCard({
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-80px" }}
       transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-      className="group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-[0_0_0_1px_rgba(255,255,255,0.04)] transition-shadow hover:border-accent/35 hover:shadow-[var(--shadow-glow)]"
+      style={{ animationDelay: `${(index % 6) * 0.22}s` }}
+      className="animate-float-card group relative cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] shadow-[0_0_0_1px_rgba(255,255,255,0.04)] transition-shadow hover:border-accent/35 hover:shadow-[var(--shadow-glow)]"
       onMouseEnter={() => {
         if (canPreview) void videoRef.current?.play().catch(() => {});
       }}
@@ -182,8 +185,13 @@ export default function Portfolio() {
           </p>
         )}
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((item) => (
-            <ProjectCard key={item._id} item={item} onOpen={() => setModal(item)} />
+          {filtered.map((item, i) => (
+            <ProjectCard
+              key={item._id}
+              item={item}
+              index={i}
+              onOpen={() => setModal(item)}
+            />
           ))}
         </div>
       </div>
