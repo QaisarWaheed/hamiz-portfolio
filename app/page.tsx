@@ -1,28 +1,25 @@
-import "./hk-landing.css";
-import LandingAbout from "@/components/landing/LandingAbout";
-import LandingContact from "@/components/landing/LandingContact";
-import LandingFooter from "@/components/landing/LandingFooter";
-import LandingHero from "@/components/landing/LandingHero";
-import LandingNav from "@/components/landing/LandingNav";
-import LandingPortfolio from "@/components/landing/LandingPortfolio";
-import LandingPricing from "@/components/landing/LandingPricing";
-import LandingServices from "@/components/landing/LandingServices";
-import LandingTestimonials from "@/components/landing/LandingTestimonials";
+import "./landing-v2.css";
+import SiteV2Shell from "@/components/landing/SiteV2Shell";
+import V2Contact from "@/components/landing/V2Contact";
+import V2Footer from "@/components/landing/V2Footer";
+import V2Hero from "@/components/landing/V2Hero";
+import V2Nav from "@/components/landing/V2Nav";
+import V2Proof from "@/components/landing/V2Proof";
+import V2ServicesAccordion from "@/components/landing/V2ServicesAccordion";
+import V2Work from "@/components/landing/V2Work";
 
 export default function Home() {
   return (
-    <div className="hk-landing">
-      <LandingNav />
+    <SiteV2Shell>
+      <V2Nav />
       <main>
-        <LandingHero />
-        <LandingServices />
-        <LandingPortfolio />
-        <LandingAbout />
-        <LandingTestimonials />
-        <LandingPricing />
-        <LandingContact />
+        <V2Hero />
+        <V2Work />
+        <V2ServicesAccordion />
+        <V2Proof />
+        <V2Contact />
       </main>
-      <LandingFooter />
-    </div>
+      <V2Footer />
+    </SiteV2Shell>
   );
 }

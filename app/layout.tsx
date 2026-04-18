@@ -26,12 +26,13 @@ const jetbrains = JetBrains_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Hamiz Khan — Video Editor",
+  title: "Hamiz Khan — Editor for documentaries and technical videos",
   description:
-    "Freelance video editor. Top Rated on Upwork. Documentaries, explainers, and face-cam edits from Multan, Pakistan.",
+    "4+ years editing long-form documentary and AI/ML research videos for international YouTube creators. Top Rated on Upwork with 100% JSS.",
   openGraph: {
-    title: "Hamiz Khan — Video Editor",
-    description: "Video editing portfolio",
+    title: "Hamiz Khan — Editor for documentaries and technical videos",
+    description:
+      "4+ years editing long-form documentary and AI/ML research videos for international YouTube creators. Top Rated on Upwork with 100% JSS.",
   },
 };
 
