@@ -1,9 +1,9 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import "./login.css";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -38,69 +38,61 @@ export default function AdminLoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center justify-center bg-canvas px-4">
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full max-w-md rounded-2xl border border-white/10 bg-white/[0.03] p-8 shadow-[var(--shadow-glow)]"
-      >
-        <p className="text-xs uppercase tracking-[0.3em] text-muted">Admin</p>
-        <h1 className="mt-2 text-2xl font-semibold text-main">Sign in</h1>
-        <p className="mt-2 text-sm text-muted">JWT session is stored in an httpOnly cookie.</p>
-        <form className="mt-8 space-y-4" onSubmit={onSubmit}>
+    <div className="admin-login-shell">
+      <div className="admin-login-card">
+        <p className="admin-login-kicker">CMS · Admin</p>
+        <h1 className="admin-login-title">
+          Sign <em>in</em>
+        </h1>
+        <p className="admin-login-note">
+          Session is stored in a secure <strong>httpOnly</strong> cookie.
+        </p>
+
+        <form className="admin-login-form" onSubmit={(e) => void onSubmit(e)}>
           <div>
-            <label className="mb-1 block text-xs text-muted" htmlFor="admin-email">
-              Email
-            </label>
+            <label htmlFor="admin-email">Email</label>
             <input
               id="admin-email"
               type="email"
               autoComplete="username"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full rounded-xl border border-white/10 bg-canvas px-4 py-3 text-sm outline-none focus:border-accent/40 focus:ring-2 focus:ring-accent/25"
+              placeholder="you@example.com"
               required
             />
           </div>
           <div>
-            <label className="mb-1 block text-xs text-muted" htmlFor="admin-password">
-              Password
-            </label>
-            <div className="relative">
+            <label htmlFor="admin-password">Password</label>
+            <div className="admin-login-password-wrap">
               <input
                 id="admin-password"
                 type={showPassword ? "text" : "password"}
                 autoComplete="current-password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                className="w-full rounded-xl border border-white/10 bg-canvas py-3 pl-4 pr-[5.25rem] text-sm outline-none focus:border-accent/40 focus:ring-2 focus:ring-accent/25"
+                placeholder="••••••••"
                 required
               />
               <button
                 type="button"
+                className="admin-login-toggle"
                 onClick={() => setShowPassword((v) => !v)}
-                className="absolute right-2 top-1/2 -translate-y-1/2 rounded-lg px-2.5 py-1.5 text-xs font-medium text-muted transition hover:bg-white/5 hover:text-main"
                 aria-label={showPassword ? "Hide password" : "Show password"}
               >
                 {showPassword ? "Hide" : "Show"}
               </button>
             </div>
           </div>
-          {error ? <p className="text-sm text-red-400">{error}</p> : null}
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full rounded-xl bg-accent py-3 text-sm font-medium text-white shadow-[var(--shadow-glow)] disabled:opacity-60"
-          >
+          {error ? <p className="admin-login-error">{error}</p> : null}
+          <button type="submit" className="admin-login-submit" disabled={loading}>
             {loading ? "Signing in…" : "Continue"}
           </button>
         </form>
-        <p className="mt-6 text-center text-xs text-muted">
-          <Link href="/" className="text-accent hover:underline">
-            ← Back to site
-          </Link>
+
+        <p className="admin-login-back">
+          <Link href="/">← Back to site</Link>
         </p>
-      </motion.div>
+      </div>
     </div>
   );
 }
