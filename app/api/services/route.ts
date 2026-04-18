@@ -10,6 +10,11 @@ const serviceSchema = z.object({
   num: z.string().min(1).max(20),
   title: z.string().min(1).max(200),
   description: z.string().min(1).max(8000),
+  videoSource: z
+    .string()
+    .optional()
+    .transform((s) => (s === "link" || s === "upload" ? s : "none")),
+  videoUrl: z.string().max(2000).optional().transform((s) => s ?? ""),
 });
 
 const putSchema = z.object({ services: z.array(serviceSchema) });
@@ -41,6 +46,8 @@ export async function PUT(req: Request) {
           num: s.num,
           title: s.title,
           description: s.description,
+          videoSource: s.videoSource ?? "none",
+          videoUrl: s.videoUrl ?? "",
         }))
       );
     }

@@ -17,7 +17,7 @@ export async function GET() {
   const fallback = useDemoContentFallback();
   try {
     await connectDB();
-    const items = await Project.find().sort({ createdAt: -1 }).lean();
+    const items = await Project.find().sort({ updatedAt: -1, createdAt: -1 }).lean();
     if (items.length === 0 && fallback) {
       return NextResponse.json(demoProjects);
     }

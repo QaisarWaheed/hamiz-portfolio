@@ -6,8 +6,8 @@ import { z } from "zod";
 const schema = z.object({
   name: z.string().min(1).max(120),
   email: z.string().email(),
-  message: z.string().min(1).max(8000),
-  offerInterest: z.string().max(200).optional().default(""),
+  requirements: z.string().min(1).max(8000),
+  references: z.string().max(8000).optional().default(""),
 });
 
 export async function POST(req: Request) {

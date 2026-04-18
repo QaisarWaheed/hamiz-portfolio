@@ -1,7 +1,7 @@
 "use client";
 
 import AdminShell from "@/components/AdminShell";
-import type { ProjectItem } from "@/components/landing/LandingPortfolio";
+import type { ProjectItem } from "@/lib/landing-types";
 import { useEffect, useState } from "react";
 
 const empty = {

@@ -1,10 +1,10 @@
 "use client";
 
 import AdminShell from "@/components/AdminShell";
-import type { TestimonialItem } from "@/components/landing/LandingTestimonials";
+import type { TestimonialItem } from "@/lib/landing-types";
 import { useEffect, useState } from "react";
 
-const empty = { name: "", role: "", message: "" };
+const empty = { name: "", role: "", message: "", imageUrl: "" };
 
 export default function AdminTestimonialsPage() {
   const [items, setItems] = useState<TestimonialItem[]>([]);
@@ -12,6 +12,7 @@ export default function AdminTestimonialsPage() {
   const [form, setForm] = useState(empty);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
+  const [uploading, setUploading] = useState(false);
 
   async function load() {
     setLoading(true);
@@ -58,7 +59,12 @@ export default function AdminTestimonialsPage() {
 
   function edit(t: TestimonialItem) {
     setEditingId(t._id);
-    setForm({ name: t.name, role: t.role, message: t.message });
+    setForm({
+      name: t.name,
+      role: t.role,
+      message: t.message,
+      imageUrl: t.imageUrl ?? "",
+    });
   }
 
   async function remove(id: string) {
@@ -67,12 +73,36 @@ export default function AdminTestimonialsPage() {
     await load();
   }
 
+  async function onPhotoFile(file: File | null) {
+    if (!file) return;
+    setUploading(true);
+    setMsg(null);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      if (!res.ok) {
+        const err = (await res.json()) as { error?: string };
+        throw new Error(err.error ?? "Upload failed");
+      }
+      const { url } = (await res.json()) as { url: string };
+      setForm((f) => ({ ...f, imageUrl: url }));
+      setMsg("Photo uploaded — save the testimonial to keep it.");
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  }
+
   return (
     <AdminShell>
       <div className="space-y-10">
         <div>
           <h1 className="text-2xl font-semibold text-main">Testimonials</h1>
-          <p className="mt-1 text-sm text-muted">These power the homepage testimonials grid.</p>
+          <p className="mt-1 text-sm text-muted">
+            Homepage cards support an optional client photo (URL or upload).
+          </p>
         </div>
 
         <form
@@ -114,6 +144,38 @@ export default function AdminTestimonialsPage() {
             />
           </div>
           <div className="md:col-span-2">
+            <label className="text-xs text-muted">Photo URL (optional)</label>
+            <input
+              className="mt-1 w-full rounded-xl border border-white/10 bg-canvas px-3 py-2 text-sm"
+              value={form.imageUrl}
+              onChange={(e) => setForm({ ...form, imageUrl: e.target.value })}
+              placeholder="https://… or upload below"
+            />
+            <div className="mt-2 flex flex-wrap items-center gap-3">
+              <label className="text-xs text-muted">
+                Upload headshot
+                <input
+                  type="file"
+                  accept="image/*"
+                  disabled={uploading}
+                  className="ml-2 text-sm text-main file:mr-2 file:rounded-lg file:border-0 file:bg-accent file:px-2 file:py-1 file:text-xs file:text-white"
+                  onChange={(e) => {
+                    void onPhotoFile(e.target.files?.[0] ?? null);
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+              {form.imageUrl ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={form.imageUrl}
+                  alt=""
+                  className="h-12 w-12 rounded-full border border-white/10 object-cover"
+                />
+              ) : null}
+            </div>
+          </div>
+          <div className="md:col-span-2">
             <label className="text-xs text-muted">Message</label>
             <textarea
               className="mt-1 w-full resize-none rounded-xl border border-white/10 bg-canvas px-3 py-2 text-sm"
@@ -145,10 +207,20 @@ export default function AdminTestimonialsPage() {
                   key={t._id}
                   className="flex flex-col gap-3 rounded-xl border border-white/10 bg-white/[0.02] p-4 sm:flex-row sm:items-center sm:justify-between"
                 >
-                  <div>
-                    <p className="font-medium text-main">{t.name}</p>
-                    <p className="text-xs text-muted">{t.role}</p>
-                    <p className="mt-1 line-clamp-2 text-sm text-muted">{t.message}</p>
+                  <div className="flex gap-3">
+                    {t.imageUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={t.imageUrl}
+                        alt=""
+                        className="h-14 w-14 shrink-0 rounded-full object-cover"
+                      />
+                    ) : null}
+                    <div>
+                      <p className="font-medium text-main">{t.name}</p>
+                      <p className="text-xs text-muted">{t.role}</p>
+                      <p className="mt-1 line-clamp-2 text-sm text-muted">{t.message}</p>
+                    </div>
                   </div>
                   <div className="flex gap-2">
                     <button

@@ -1,3 +1,4 @@
+import "./hk-landing.css";
 import LandingAbout from "@/components/landing/LandingAbout";
 import LandingContact from "@/components/landing/LandingContact";
 import LandingFooter from "@/components/landing/LandingFooter";
@@ -10,7 +11,7 @@ import LandingTestimonials from "@/components/landing/LandingTestimonials";
 
 export default function Home() {
   return (
-    <div className="ed-grain min-h-screen bg-[var(--bg)] text-[var(--ink)]">
+    <div className="hk-landing">
       <LandingNav />
       <main>
         <LandingHero />

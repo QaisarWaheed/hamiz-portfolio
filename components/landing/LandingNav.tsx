@@ -1,6 +1,6 @@
 export default function LandingNav() {
   return (
-    <nav className="ed-nav">
+    <nav>
       <div className="wrap">
         <div className="logo">
           Hamiz<span>.</span>

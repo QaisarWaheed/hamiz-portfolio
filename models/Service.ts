@@ -6,6 +6,12 @@ const serviceSchema = new Schema(
     num: { type: String, required: true },
     title: { type: String, required: true },
     description: { type: String, required: true },
+    videoSource: {
+      type: String,
+      enum: ["none", "link", "upload"],
+      default: "none",
+    },
+    videoUrl: { type: String, default: "" },
   },
   { timestamps: true }
 );

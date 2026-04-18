@@ -27,3 +27,20 @@ export async function uploadThumbnailBuffer(
     stream.end(buffer);
   });
 }
+
+export async function uploadVideoBuffer(
+  buffer: Buffer,
+  folder = "hamiz-portfolio/service-videos"
+): Promise<{ secure_url: string }> {
+  const c = configureCloudinary();
+  return new Promise((resolve, reject) => {
+    const stream = c.uploader.upload_stream(
+      { folder, resource_type: "video" },
+      (err, result) => {
+        if (err || !result?.secure_url) reject(err ?? new Error("Upload failed"));
+        else resolve({ secure_url: result.secure_url });
+      }
+    );
+    stream.end(buffer);
+  });
+}

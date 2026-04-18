@@ -1,7 +1,7 @@
 "use client";
 
 import AdminShell from "@/components/AdminShell";
-import type { PricingRow } from "@/components/landing/LandingPricing";
+import type { PricingRow } from "@/lib/landing-types";
 import { useCallback, useEffect, useState } from "react";
 
 export default function AdminPricingPage() {

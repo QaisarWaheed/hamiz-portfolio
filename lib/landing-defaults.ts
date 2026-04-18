@@ -7,6 +7,8 @@ export const defaultServices = [
     title: "Faceless YouTube Documentaries",
     description:
       "Long-form narrative edits with AI-generated visuals, archival footage, stock, motion graphics and original sound design. Think true-crime, geopolitics, history, explainer-essays. I handle prompt generation, scene assembly, pacing and mix.",
+    videoSource: "none" as const,
+    videoUrl: "",
   },
   {
     order: 1,
@@ -14,6 +16,8 @@ export const defaultServices = [
     title: "Technical Tutorials & Explainers",
     description:
       "Screen-recording edits with motion callouts, zooms, diagrams and clean typography. Works for software walkthroughs, course modules, AI/ML lectures and developer content. Clear signal, no fluff.",
+    videoSource: "none" as const,
+    videoUrl: "",
   },
   {
     order: 2,
@@ -21,6 +25,8 @@ export const defaultServices = [
     title: "Face-Cam YouTube Videos",
     description:
       "Talking-head edits with B-roll, jump-cut pacing, subtitles, overlay graphics and audio cleanup. Built for creators who want retention without looking over-edited.",
+    videoSource: "none" as const,
+    videoUrl: "",
   },
 ];
 

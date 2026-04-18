@@ -9,6 +9,7 @@ const createSchema = z.object({
   name: z.string().min(1),
   role: z.string().optional(),
   message: z.string().min(1),
+  imageUrl: z.string().max(2000).optional().default(""),
 });
 
 export async function GET() {
