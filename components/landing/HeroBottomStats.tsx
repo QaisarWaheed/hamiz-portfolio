@@ -108,7 +108,7 @@ export default function HeroBottomStats() {
       <div className="hero-stat-card">
         <div className="stat-title">100% JSS</div>
         <p className="mono stat-desc">
-          Upwork Job Success Score, held across 4 years and 3 client relationships.
+          Upwork Job Success Score, held across the platform and client relationships with 5 stars.
         </p>
       </div>
     </div>

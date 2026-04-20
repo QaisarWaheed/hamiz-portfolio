@@ -30,7 +30,7 @@ export default function V2Hero() {
               100<span className="stat__suffix">% JSS</span>
             </div>
             <div className="stat__cap">
-              Upwork Job Success Score, held across 4 years and 3 client relationships.
+              Upwork Job Success Score, held across the platform and client relationships with 5 stars.
             </div>
           </div>
         </div>

@@ -11,7 +11,7 @@ export default function V2Nav() {
           <a href="#work">Work</a>
           <a href="#services">Services</a>
           <a href="#proof">Clients</a>
-          <a href="#about">About</a>
+          <a href="#about">Get A quote</a>
         </nav>
         <a href="#contact" className="btn btn--primary">
           See availability
