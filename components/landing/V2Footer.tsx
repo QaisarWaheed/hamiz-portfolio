@@ -4,7 +4,11 @@ export default function V2Footer() {
       <div className="v2-container">
         <div>© 2026 HAMIZ KHAN — ALL RIGHTS RESERVED</div>
         <div>
-          <a href="https://www.upwork.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://www.upwork.com/freelancers/hamizkhan1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             UPWORK
           </a>
           &nbsp;·&nbsp;

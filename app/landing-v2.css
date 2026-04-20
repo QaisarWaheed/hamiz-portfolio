@@ -25,7 +25,8 @@
   line-height: 1.5;
   font-feature-settings: "ss01" on, "ss02" on;
   position: relative;
-  overflow-x: hidden;
+  /* clip avoids horizontal scroll without breaking sticky header (hidden often does) */
+  overflow-x: clip;
 }
 
 .hk-site *,
@@ -67,7 +68,7 @@
 .hk-site .nav {
   position: sticky;
   top: 0;
-  z-index: 50;
+  z-index: 120;
   padding: 20px 0;
   background: rgba(13, 13, 14, 0.78);
   backdrop-filter: blur(14px);
@@ -704,6 +705,103 @@
   color: var(--text-dim);
   letter-spacing: 0.02em;
   margin: 0;
+}
+
+.hk-site .contact__form {
+  max-width: 520px;
+  margin: 48px auto 0;
+  padding-top: 40px;
+  text-align: left;
+}
+
+.hk-site .contact__form-kicker {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-faint);
+  margin: 0 0 20px;
+  text-align: center;
+}
+
+.hk-site .contact__form-grid {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+@media (min-width: 560px) {
+  .hk-site .contact__form-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.hk-site .contact__field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.hk-site .contact__field label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+.hk-site .contact__field input,
+.hk-site .contact__field textarea {
+  width: 100%;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text);
+  background: var(--bg-card);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 10px 12px;
+  resize: vertical;
+  transition:
+    border-color 0.2s var(--ease),
+    box-shadow 0.2s var(--ease);
+}
+
+.hk-site .contact__field input::placeholder,
+.hk-site .contact__field textarea::placeholder {
+  color: var(--text-faint);
+}
+
+.hk-site .contact__field input:focus,
+.hk-site .contact__field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-soft);
+}
+
+.hk-site .contact__submit {
+  margin-top: 20px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.hk-site .contact__submit:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.hk-site .contact__form-status {
+  font-family: var(--mono);
+  font-size: 12px;
+  margin: 16px 0 0;
+  text-align: center;
+}
+
+.hk-site .contact__form-status--ok {
+  color: var(--text-dim);
+}
+
+.hk-site .contact__form-status--err {
+  color: #c97a6b;
 }
 
 .hk-site .site-footer-v2 {

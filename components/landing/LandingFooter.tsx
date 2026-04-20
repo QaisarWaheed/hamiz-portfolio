@@ -32,7 +32,12 @@ export default function LandingFooter() {
       >
         <div>© 2026 Hamiz Khan · Multan, PK</div>
         <div>
-          <a href="#" className="footer-upwork">
+          <a
+            href="https://www.upwork.com/freelancers/hamizkhan1"
+            className="footer-upwork"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <TopRatedBadge />
             <span>Upwork</span>
           </a>
