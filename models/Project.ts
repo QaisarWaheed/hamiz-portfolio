@@ -4,6 +4,12 @@ const projectSchema = new Schema(
   {
     title: { type: String, required: true },
     description: { type: String, default: "" },
+    /** How the video is stored: external link vs file hosted on Cloudinary. */
+    videoSource: {
+      type: String,
+      enum: ["url", "cloudinary"],
+      default: "url",
+    },
     videoUrl: { type: String, required: true },
     thumbnail: { type: String, required: true },
     category: { type: String, default: "General" },

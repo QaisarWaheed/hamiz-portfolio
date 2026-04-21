@@ -21,8 +21,18 @@ export default function SiteV2Shell({ children }: { children: React.ReactNode })
       { rootMargin: "0px 0px -10% 0px", threshold: 0.1 }
     );
 
-    root.querySelectorAll(".reveal").forEach((el) => io.observe(el));
-    return () => io.disconnect();
+    const observePending = () => {
+      root.querySelectorAll(".reveal:not(.is-in)").forEach((el) => io.observe(el));
+    };
+
+    observePending();
+    const mo = new MutationObserver(() => observePending());
+    mo.observe(root, { childList: true, subtree: true });
+
+    return () => {
+      mo.disconnect();
+      io.disconnect();
+    };
   }, []);
 
   return (

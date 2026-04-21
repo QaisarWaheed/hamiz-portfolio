@@ -33,7 +33,10 @@ function youtubeEmbed(url: string): string | null {
 
 export default function VideoModal({ open, onClose, title, videoUrl }: VideoModalProps) {
   const embed = useMemo(() => youtubeEmbed(videoUrl), [videoUrl]);
-  const isDirect = !embed && /\.(mp4|webm|ogg)(\?|$)/i.test(videoUrl);
+  const isDirect =
+    !embed &&
+    (/\.(mp4|webm|ogg|mov)(\?|$)/i.test(videoUrl) ||
+      /res\.cloudinary\.com\/.+\/video\/upload\//i.test(videoUrl));
 
   useEffect(() => {
     if (!open) return;

@@ -1,12 +1,13 @@
 "use client";
 
 import AdminShell from "@/components/AdminShell";
-import type { ProjectItem } from "@/lib/landing-types";
+import type { ProjectItem, ProjectVideoSource } from "@/lib/landing-types";
 import { useEffect, useState } from "react";
 
 const empty = {
   title: "",
   description: "",
+  videoSource: "url" as ProjectVideoSource,
   videoUrl: "",
   thumbnail: "",
   category: "Commercial",
@@ -18,6 +19,7 @@ export default function AdminProjectsPage() {
   const [form, setForm] = useState(empty);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [uploadingVideo, setUploadingVideo] = useState(false);
   const [msg, setMsg] = useState<string | null>(null);
 
   async function load() {
@@ -53,9 +55,33 @@ export default function AdminProjectsPage() {
     }
   }
 
+  async function uploadProjectVideo(file: File) {
+    setUploadingVideo(true);
+    setMsg(null);
+    try {
+      const fd = new FormData();
+      fd.set("file", file);
+      fd.set("kind", "video");
+      fd.set("scope", "project");
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      const j = (await res.json()) as { url?: string; error?: string };
+      if (!res.ok) throw new Error(j.error ?? "Upload failed");
+      if (j.url) setForm((f) => ({ ...f, videoSource: "cloudinary", videoUrl: j.url! }));
+      setMsg("Video uploaded to Cloudinary");
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setUploadingVideo(false);
+    }
+  }
+
   async function save(e: React.FormEvent) {
     e.preventDefault();
     setMsg(null);
+    if (form.videoSource === "cloudinary" && !form.videoUrl.trim()) {
+      setMsg("Upload a video file before saving.");
+      return;
+    }
     try {
       if (editingId) {
         const res = await fetch(`/api/projects/${editingId}`, {
@@ -86,6 +112,7 @@ export default function AdminProjectsPage() {
     setForm({
       title: p.title,
       description: p.description ?? "",
+      videoSource: p.videoSource === "cloudinary" ? "cloudinary" : "url",
       videoUrl: p.videoUrl,
       thumbnail: p.thumbnail,
       category: p.category ?? "General",
@@ -106,7 +133,9 @@ export default function AdminProjectsPage() {
       <div className="space-y-10">
         <div>
           <h1 className="text-2xl font-semibold text-main">Projects</h1>
-          <p className="mt-1 text-sm text-muted">CRUD wired to MongoDB with Cloudinary thumbnails.</p>
+          <p className="mt-1 text-sm text-muted">
+            CRUD wired to MongoDB. Thumbnails and optional portfolio videos can be uploaded to Cloudinary.
+          </p>
         </div>
 
         <form
@@ -148,14 +177,60 @@ export default function AdminProjectsPage() {
             />
           </div>
           <div className="md:col-span-2">
-            <label className="text-xs text-muted">Video URL (MP4, WebM, or YouTube)</label>
-            <input
+            <label className="text-xs text-muted">Video</label>
+            <select
               className="mt-1 w-full rounded-xl border border-white/10 bg-canvas px-3 py-2 text-sm"
-              value={form.videoUrl}
-              onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
-              required
-            />
+              value={form.videoSource}
+              onChange={(e) => {
+                const videoSource = e.target.value as ProjectVideoSource;
+                setForm({
+                  ...form,
+                  videoSource,
+                  videoUrl: videoSource === "url" ? form.videoUrl : "",
+                });
+              }}
+            >
+              <option value="url">External URL (YouTube, Vimeo, or direct file link)</option>
+              <option value="cloudinary">Upload file (Cloudinary)</option>
+            </select>
           </div>
+          {form.videoSource === "url" ? (
+            <div className="md:col-span-2">
+              <label className="text-xs text-muted">Video URL</label>
+              <input
+                className="mt-1 w-full rounded-xl border border-white/10 bg-canvas px-3 py-2 text-sm"
+                value={form.videoUrl}
+                onChange={(e) => setForm({ ...form, videoUrl: e.target.value })}
+                placeholder="https://…"
+                required
+              />
+            </div>
+          ) : (
+            <div className="md:col-span-2">
+              <label className="text-xs text-muted">Video file</label>
+              <div className="mt-1 flex flex-wrap items-center gap-3">
+                <label className="text-xs text-accent underline-offset-4 hover:underline">
+                  <input
+                    type="file"
+                    accept="video/*"
+                    className="hidden"
+                    onChange={(ev) => {
+                      const f = ev.target.files?.[0];
+                      if (f) void uploadProjectVideo(f);
+                      ev.target.value = "";
+                    }}
+                  />
+                  Upload to Cloudinary
+                </label>
+                {uploadingVideo ? <span className="text-xs text-muted">Uploading…</span> : null}
+              </div>
+              {form.videoUrl ? (
+                <p className="mt-2 break-all text-xs text-muted">Stored: {form.videoUrl}</p>
+              ) : (
+                <p className="mt-2 text-xs text-muted">Upload a file to set the video URL (required before save).</p>
+              )}
+            </div>
+          )}
           <div className="md:col-span-2">
             <label className="text-xs text-muted">Thumbnail URL</label>
             <input

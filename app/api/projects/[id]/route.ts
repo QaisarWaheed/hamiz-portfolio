@@ -8,6 +8,7 @@ import { z } from "zod";
 const updateSchema = z.object({
   title: z.string().min(1).optional(),
   description: z.string().optional(),
+  videoSource: z.enum(["url", "cloudinary"]).optional(),
   videoUrl: z.string().url().optional(),
   thumbnail: z.string().url().optional(),
   category: z.string().optional(),

@@ -8,13 +8,24 @@ export type ServiceRow = {
   videoUrl?: string;
 };
 
+export type ProjectVideoSource = "url" | "cloudinary";
+
 export type ProjectItem = {
   _id: string;
   title: string;
   description?: string;
+  videoSource?: ProjectVideoSource;
   videoUrl: string;
   thumbnail: string;
   category: string;
+};
+
+export type ProjectsPage = {
+  items: ProjectItem[];
+  total: number;
+  page: number;
+  pageSize: number;
+  totalPages: number;
 };
 
 export type TestimonialItem = {
