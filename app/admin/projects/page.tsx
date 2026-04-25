@@ -4,10 +4,13 @@ import AdminShell from "@/components/AdminShell";
 import type { ProjectItem, ProjectVideoSource } from "@/lib/landing-types";
 import { useEffect, useState } from "react";
 
+type ProjectThumbnailSource = "url" | "cloudinary";
+
 const empty = {
   title: "",
   description: "",
   videoSource: "url" as ProjectVideoSource,
+  thumbnailSource: "url" as ProjectThumbnailSource,
   videoUrl: "",
   thumbnail: "",
   category: "Commercial",
@@ -82,6 +85,10 @@ export default function AdminProjectsPage() {
       setMsg("Upload a video file before saving.");
       return;
     }
+    if (form.thumbnailSource === "cloudinary" && !form.thumbnail.trim()) {
+      setMsg("Upload a thumbnail image before saving.");
+      return;
+    }
     try {
       if (editingId) {
         const res = await fetch(`/api/projects/${editingId}`, {
@@ -113,6 +120,7 @@ export default function AdminProjectsPage() {
       title: p.title,
       description: p.description ?? "",
       videoSource: p.videoSource === "cloudinary" ? "cloudinary" : "url",
+      thumbnailSource: p.thumbnail?.includes("res.cloudinary.com") ? "cloudinary" : "url",
       videoUrl: p.videoUrl,
       thumbnail: p.thumbnail,
       category: p.category ?? "General",
@@ -232,29 +240,56 @@ export default function AdminProjectsPage() {
             </div>
           )}
           <div className="md:col-span-2">
-            <label className="text-xs text-muted">Thumbnail URL</label>
-            <input
+            <label className="text-xs text-muted">Thumbnail</label>
+            <select
               className="mt-1 w-full rounded-xl border border-white/10 bg-canvas px-3 py-2 text-sm"
-              value={form.thumbnail}
-              onChange={(e) => setForm({ ...form, thumbnail: e.target.value })}
-              required
-            />
-            <div className="mt-2 flex items-center gap-3">
-              <label className="text-xs text-accent underline-offset-4 hover:underline">
-                <input
-                  type="file"
-                  accept="image/*"
-                  className="hidden"
-                  onChange={(ev) => {
-                    const f = ev.target.files?.[0];
-                    if (f) void uploadThumb(f);
-                    ev.target.value = "";
-                  }}
-                />
-                Upload to Cloudinary
-              </label>
-              {uploading ? <span className="text-xs text-muted">Uploading…</span> : null}
-            </div>
+              value={form.thumbnailSource}
+              onChange={(e) => {
+                const thumbnailSource = e.target.value as ProjectThumbnailSource;
+                setForm({
+                  ...form,
+                  thumbnailSource,
+                  thumbnail: thumbnailSource === "url" ? form.thumbnail : "",
+                });
+              }}
+            >
+              <option value="url">External image URL</option>
+              <option value="cloudinary">Upload image (Cloudinary)</option>
+            </select>
+
+            {form.thumbnailSource === "url" ? (
+              <input
+                className="mt-2 w-full rounded-xl border border-white/10 bg-canvas px-3 py-2 text-sm"
+                value={form.thumbnail}
+                onChange={(e) => setForm({ ...form, thumbnail: e.target.value })}
+                placeholder="https://…"
+                required
+              />
+            ) : (
+              <div className="mt-2">
+                <div className="flex items-center gap-3">
+                  <label className="text-xs text-accent underline-offset-4 hover:underline">
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(ev) => {
+                        const f = ev.target.files?.[0];
+                        if (f) void uploadThumb(f);
+                        ev.target.value = "";
+                      }}
+                    />
+                    Upload to Cloudinary
+                  </label>
+                  {uploading ? <span className="text-xs text-muted">Uploading…</span> : null}
+                </div>
+                {form.thumbnail ? (
+                  <p className="mt-2 break-all text-xs text-muted">Stored: {form.thumbnail}</p>
+                ) : (
+                  <p className="mt-2 text-xs text-muted">Upload an image to set thumbnail URL (required before save).</p>
+                )}
+              </div>
+            )}
           </div>
           <div className="md:col-span-2">
             <label className="text-xs text-muted">Description</label>

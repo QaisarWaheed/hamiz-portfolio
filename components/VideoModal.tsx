@@ -8,6 +8,8 @@ export type VideoModalProps = {
   onClose: () => void;
   title: string;
   videoUrl: string;
+  description?: string;
+  category?: string;
 };
 
 function youtubeEmbed(url: string): string | null {
@@ -31,7 +33,14 @@ function youtubeEmbed(url: string): string | null {
   return null;
 }
 
-export default function VideoModal({ open, onClose, title, videoUrl }: VideoModalProps) {
+export default function VideoModal({
+  open,
+  onClose,
+  title,
+  videoUrl,
+  description = "",
+  category = "",
+}: VideoModalProps) {
   const embed = useMemo(() => youtubeEmbed(videoUrl), [videoUrl]);
   const isDirect =
     !embed &&
@@ -117,6 +126,16 @@ export default function VideoModal({ open, onClose, title, videoUrl }: VideoModa
                 </div>
               )}
             </div>
+            {(description.trim() || category.trim()) && (
+              <div className="space-y-2 border-t border-white/10 px-4 py-4 sm:px-5">
+                {category.trim() ? (
+                  <p className="text-xs uppercase tracking-[0.12em] text-muted">{category}</p>
+                ) : null}
+                {description.trim() ? (
+                  <p className="text-sm leading-relaxed text-main/90">{description}</p>
+                ) : null}
+              </div>
+            )}
           </motion.div>
         </motion.div>
       )}

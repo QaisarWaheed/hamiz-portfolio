@@ -17,12 +17,38 @@ function isProjectsPage(data: unknown): data is ProjectsPage {
   );
 }
 
+function youtubeIdFromUrl(url: string): string | null {
+  const raw = url.trim();
+  if (!raw) return null;
+  const match = raw.match(
+    /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/shorts\/|youtu\.be\/)([\w-]{11})/
+  );
+  return match?.[1] ?? null;
+}
+
+function normalizeThumbUrl(thumbnail: string, videoUrl: string): string {
+  const t = thumbnail.trim();
+  const anWebp = t.match(/i\.ytimg\.com\/an_webp\/([\w-]{11})\//i);
+  if (anWebp?.[1]) {
+    return `https://i.ytimg.com/vi/${anWebp[1]}/hqdefault.jpg`;
+  }
+  if (t) return t;
+  const yt = youtubeIdFromUrl(videoUrl);
+  if (yt) return `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`;
+  return "";
+}
+
 export default function V2Work() {
   const [page, setPage] = useState(1);
   const [data, setData] = useState<ProjectsPage | null>(null);
   const [loading, setLoading] = useState(true);
   const [err, setErr] = useState<string | null>(null);
-  const [modal, setModal] = useState<{ title: string; videoUrl: string } | null>(null);
+  const [modal, setModal] = useState<{
+    title: string;
+    videoUrl: string;
+    description?: string;
+    category?: string;
+  } | null>(null);
 
   const load = useCallback(async (p: number) => {
     setLoading(true);
@@ -83,25 +109,28 @@ export default function V2Work() {
           <>
             <div className="work__grid">
               {items.map((p: ProjectItem, i: number) => {
-                const n = (data!.page - 1) * PAGE_SIZE + i + 1;
-                const indexLabel = `[${String(n).padStart(2, "0")}]`;
-                const caption = [p.category, p.description?.trim()].filter(Boolean).join(" · ") || p.category;
+                const thumb = normalizeThumbUrl(p.thumbnail ?? "", p.videoUrl ?? "");
                 return (
                   <button
                     key={p._id}
                     type="button"
                     className="tile reveal text-left"
-                    onClick={() => setModal({ title: p.title, videoUrl: p.videoUrl })}
+                    onClick={() =>
+                      setModal({
+                        title: p.title,
+                        videoUrl: p.videoUrl,
+                        description: p.description,
+                        category: p.category,
+                      })
+                    }
                   >
                     <div
                       className="tile__thumb"
-                      style={{ backgroundImage: `url(${p.thumbnail})` }}
+                      style={thumb ? { backgroundImage: `url(${thumb})` } : undefined}
                       aria-hidden
                     />
-                    <div className="tile__index">{indexLabel}</div>
                     <div className="tile__meta">
                       <div className="tile__title">{p.title}</div>
-                      <div className="tile__caption">{caption}</div>
                     </div>
                   </button>
                 );
@@ -144,6 +173,8 @@ export default function V2Work() {
         onClose={() => setModal(null)}
         title={modal?.title ?? ""}
         videoUrl={modal?.videoUrl ?? ""}
+        description={modal?.description ?? ""}
+        category={modal?.category ?? ""}
       />
     </section>
   );
