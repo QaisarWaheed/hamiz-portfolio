@@ -13,7 +13,8 @@
 # testing
 /coverage
 
-#env files
+# env files
+/.env
 /.env.example
 /.env.local
 
