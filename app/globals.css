@@ -27,8 +27,9 @@ html {
 }
 
 body {
-  background-color: var(--bg);
-  color: var(--ink);
+  font-family: var(--font-kanit), sans-serif;
+  background: #0c0c0c;
+  color: #d7e2ea;
 }
 
 ::selection {
@@ -77,4 +78,11 @@ body {
   .animate-float-card {
     animation: none;
   }
+}
+
+.hero-heading {
+  background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }

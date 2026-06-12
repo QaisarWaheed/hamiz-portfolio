@@ -1,0 +1,11 @@
+/* Landing v3 — minimal helpers (Tailwind handles most layout). */
+
+.marquee-row {
+  display: flex;
+  gap: 12px;
+  will-change: transform;
+}
+
+.project-card {
+  transition: transform 0.35s cubic-bezier(0.25, 0.1, 0.25, 1);
+}

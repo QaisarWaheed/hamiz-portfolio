@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, JetBrains_Mono } from "next/font/google";
+import { Fraunces, Inter, JetBrains_Mono, Kanit } from "next/font/google";
 import "./globals.css";
 import "./editorial.css";
 
@@ -25,6 +25,13 @@ const jetbrains = JetBrains_Mono({
   weight: ["400", "500"],
 });
 
+const kanit = Kanit({
+  subsets: ["latin"],
+  variable: "--font-kanit",
+  display: "swap",
+  weight: ["300", "400", "500", "600", "700", "800", "900"],
+});
+
 export const metadata: Metadata = {
   title: "Hamiz Khan — Editor for documentaries and technical videos",
   description:
@@ -44,11 +51,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable} h-full antialiased`}
+      className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable} ${kanit.variable} h-full antialiased`}
     >
-      <body
-        className={`${inter.className} min-h-full flex flex-col font-light`}
-      >
+      <body className={`${kanit.className} min-h-full flex flex-col font-light`}>
         {children}
       </body>
     </html>

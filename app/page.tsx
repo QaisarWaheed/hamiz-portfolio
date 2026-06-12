@@ -1,25 +1,22 @@
-import "./landing-v2.css";
-import SiteV2Shell from "@/components/landing/SiteV2Shell";
-import V2Contact from "@/components/landing/V2Contact";
-import V2Footer from "@/components/landing/V2Footer";
-import V2Hero from "@/components/landing/V2Hero";
-import V2Nav from "@/components/landing/V2Nav";
-import V2Proof from "@/components/landing/V2Proof";
-import V2ServicesAccordion from "@/components/landing/V2ServicesAccordion";
-import V2Work from "@/components/landing/V2Work";
+import "./landing-v3.css";
+import NewAbout from "@/components/landing/NewAbout";
+import NewContact from "@/components/landing/NewContact";
+import NewFooter from "@/components/landing/NewFooter";
+import NewHero from "@/components/landing/NewHero";
+import NewMarquee from "@/components/landing/NewMarquee";
+import NewProjects from "@/components/landing/NewProjects";
+import NewServices from "@/components/landing/NewServices";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <SiteV2Shell>
-      <V2Nav />
-      <main>
-        <V2Hero />
-        <V2Work />
-        <V2ServicesAccordion />
-        <V2Proof />
-        <V2Contact />
-      </main>
-      <V2Footer />
-    </SiteV2Shell>
+    <main style={{ overflowX: "clip", background: "#0C0C0C" }}>
+      <NewHero />
+      <NewMarquee />
+      <NewAbout />
+      <NewServices />
+      <NewProjects />
+      <NewContact />
+      <NewFooter />
+    </main>
   );
 }
