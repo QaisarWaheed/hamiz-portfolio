@@ -9,7 +9,7 @@ import {
   useTransform,
   type MotionValue,
 } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 const DEMO: ProjectItem[] = [
   {
@@ -39,11 +39,71 @@ const DEMO: ProjectItem[] = [
   },
 ];
 
+function youtubeIdFromUrl(url: string): string | null {
+  const raw = url.trim();
+  if (!raw) return null;
+  const match = raw.match(
+    /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtube\.com\/shorts\/|youtu\.be\/)([\w-]{11})/
+  );
+  return match?.[1] ?? null;
+}
+
+function normalizeThumbUrl(thumbnail: string, videoUrl: string): string {
+  const t = (thumbnail ?? "").trim();
+  const anWebp = t.match(/i\.ytimg\.com\/an_webp\/([\w-]{11})\//i);
+  if (anWebp?.[1]) {
+    return `https://i.ytimg.com/vi/${anWebp[1]}/hqdefault.jpg`;
+  }
+  if (t) return t;
+  const yt = youtubeIdFromUrl(videoUrl ?? "");
+  if (yt) return `https://i.ytimg.com/vi/${yt}/hqdefault.jpg`;
+  return "";
+}
+
 function LiveProjectButton() {
   return (
-    <span className="inline-block rounded-full border-2 border-[#D7E2EA] px-8 py-3 text-sm font-medium uppercase tracking-widest text-[#D7E2EA] transition-colors hover:bg-[#D7E2EA]/10 sm:px-10 sm:py-3.5 sm:text-base">
+    <span className="inline-block rounded-full border-2 border-[#D7E2EA] px-6 py-2.5 text-xs font-medium uppercase tracking-widest text-[#D7E2EA] transition-colors hover:bg-[#D7E2EA]/10 sm:px-10 sm:py-3.5 sm:text-sm md:text-base">
       Live Project
     </span>
+  );
+}
+
+function ThumbnailImage({
+  src,
+  onOpen,
+  className,
+  style,
+}: {
+  src: string;
+  onOpen: () => void;
+  className?: string;
+  style?: CSSProperties;
+}) {
+  const [broken, setBroken] = useState(false);
+  const thumb = src.trim();
+
+  if (!thumb || broken) {
+    return (
+      <button type="button" onClick={onOpen} className="block w-full text-left">
+        <div
+          className={`w-full rounded-[24px] bg-[#1a1a1a] sm:rounded-[32px] ${className ?? ""}`}
+          style={style}
+        />
+      </button>
+    );
+  }
+
+  return (
+    <button type="button" onClick={onOpen} className="block w-full text-left">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={thumb}
+        alt=""
+        className={`w-full rounded-[24px] object-cover sm:rounded-[32px] ${className ?? ""}`}
+        style={style}
+        onError={() => setBroken(true)}
+      />
+    </button>
   );
 }
 
@@ -52,6 +112,7 @@ type ProjectCardProps = {
   index: number;
   total: number;
   scrollYProgress: MotionValue<number>;
+  stackEnabled: boolean;
   onOpen: () => void;
 };
 
@@ -60,6 +121,7 @@ function ProjectCard({
   index,
   total,
   scrollYProgress,
+  stackEnabled,
   onOpen,
 }: ProjectCardProps) {
   const scale = useTransform(
@@ -68,12 +130,16 @@ function ProjectCard({
     [1, 1 - (total - 1 - index) * 0.03]
   );
   const num = String(index + 1).padStart(2, "0");
+  const thumb = normalizeThumbUrl(project.thumbnail ?? "", project.videoUrl ?? "");
 
   return (
-    <div className="relative h-[85vh]">
+    <div className="relative sm:h-[85vh]">
       <motion.div
-        className="project-card sticky top-24 rounded-[40px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:top-32 sm:rounded-[50px] sm:p-6 md:rounded-[60px] md:p-8"
-        style={{ scale, top: index * 28 }}
+        className="project-card relative rounded-[40px] border-2 border-[#D7E2EA] bg-[#0C0C0C] p-4 sm:sticky sm:top-24 sm:rounded-[50px] sm:p-6 md:top-32 md:rounded-[60px] md:p-8"
+        style={{
+          scale: stackEnabled ? scale : 1,
+          top: stackEnabled ? index * 28 : undefined,
+        }}
       >
         <div className="flex flex-wrap items-start justify-between gap-4">
           <span
@@ -82,8 +148,8 @@ function ProjectCard({
           >
             {num}
           </span>
-          <div className="flex flex-col">
-            <span className="text-sm font-light uppercase opacity-60 text-[#D7E2EA]">
+          <div className="flex min-w-0 flex-col">
+            <span className="text-sm font-light uppercase text-[#D7E2EA] opacity-60">
               {project.category}
             </span>
             <h3
@@ -98,31 +164,35 @@ function ProjectCard({
           </a>
         </div>
 
-        <div className="mt-6 flex gap-4">
-          <div className="flex w-[40%] flex-col gap-4">
-            <button type="button" onClick={onOpen} className="w-full text-left">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img
-                src={project.thumbnail}
-                alt=""
-                className="w-full rounded-[24px] object-cover sm:rounded-[32px]"
-                style={{ height: "clamp(130px, 16vw, 230px)" }}
-              />
-            </button>
+        <div className="mt-6 flex flex-col gap-4 sm:flex-row">
+          <div className="flex w-full flex-row gap-2 sm:w-[40%] sm:flex-col sm:gap-4">
+            <ThumbnailImage
+              src={thumb}
+              onOpen={onOpen}
+              style={{ height: "clamp(130px, 16vw, 230px)" }}
+            />
             <div
-              className="w-full rounded-[24px] bg-[#161618] sm:rounded-[32px]"
+              className="flex w-full items-center justify-center rounded-[24px] bg-[#111111] sm:rounded-[32px]"
               style={{ height: "clamp(160px, 22vw, 340px)" }}
+            >
+              <span
+                className="hero-heading px-4 text-center font-black uppercase"
+                style={{ fontSize: "clamp(1.5rem, 4vw, 3rem)" }}
+              >
+                {project.category || "Video"}
+              </span>
+            </div>
+          </div>
+          <div className="w-full sm:flex-1">
+            <ThumbnailImage
+              src={thumb}
+              onOpen={onOpen}
+              className="h-full"
+              style={{
+                minHeight: "clamp(200px, 50vw, 570px)",
+              }}
             />
           </div>
-          <button type="button" onClick={onOpen} className="flex-1 text-left">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={project.thumbnail}
-              alt=""
-              className="h-full w-full rounded-[24px] object-cover sm:rounded-[32px]"
-              style={{ minHeight: "clamp(290px, 38vw, 570px)" }}
-            />
-          </button>
         </div>
       </motion.div>
     </div>
@@ -137,14 +207,23 @@ function CardStack({
   onOpen: (p: ProjectItem) => void;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [stackEnabled, setStackEnabled] = useState(false);
   const { scrollYProgress } = useScroll({
     target: containerRef,
     offset: ["start start", "end end"],
   });
   const total = projects.length;
 
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 640px)");
+    const update = () => setStackEnabled(mq.matches);
+    update();
+    mq.addEventListener("change", update);
+    return () => mq.removeEventListener("change", update);
+  }, []);
+
   return (
-    <div ref={containerRef} className="flex flex-col">
+    <div ref={containerRef} className="flex flex-col gap-8 sm:gap-0">
       {projects.map((project, index) => (
         <ProjectCard
           key={project._id}
@@ -152,6 +231,7 @@ function CardStack({
           index={index}
           total={total}
           scrollYProgress={scrollYProgress}
+          stackEnabled={stackEnabled}
           onOpen={() => onOpen(project)}
         />
       ))}
@@ -190,7 +270,7 @@ export default function NewProjects() {
   return (
     <section
       id="projects"
-      className="relative z-10 -mt-10 rounded-t-[40px] bg-[#0C0C0C] px-5 py-20 sm:-mt-12 sm:rounded-t-[50px] sm:px-8 md:-mt-14 md:rounded-t-[60px] md:px-10"
+      className="relative z-10 -mt-10 overflow-x-hidden rounded-t-[40px] bg-[#0C0C0C] px-5 py-20 sm:-mt-12 sm:rounded-t-[50px] sm:px-8 md:-mt-14 md:rounded-t-[60px] md:px-10"
     >
       <FadeIn>
         <h2

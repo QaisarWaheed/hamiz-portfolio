@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "images.higgs.ai", pathname: "/**" },
       { protocol: "https", hostname: "shrug-person-78902957.figma.site", pathname: "/**" },
       { protocol: "https", hostname: "motionsites.ai", pathname: "/**" },
+      { protocol: "https", hostname: "**" },
     ],
   },
 };

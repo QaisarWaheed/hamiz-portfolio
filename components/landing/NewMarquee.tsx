@@ -50,7 +50,7 @@ export default function NewMarquee() {
   return (
     <section
       ref={sectionRef}
-      className="overflow-x-hidden bg-[#0C0C0C] pb-10 pt-24 sm:pt-32 md:pt-40"
+      className="overflow-hidden bg-[#0C0C0C] pb-10 pt-24 sm:pt-32 md:pt-40"
     >
       <div className="flex flex-col gap-3">
         <div ref={row1Ref} className="marquee-row">

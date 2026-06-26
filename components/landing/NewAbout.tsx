@@ -6,7 +6,7 @@ import FadeIn from "@/components/landing/FadeIn";
 import { ABOUT_CORNER_IMAGES } from "@/components/landing/landing-v3-assets";
 
 const BIO =
-  "With more than five years of experience as a video editor, i focus on crafting striking visual stories, seamless transitions, and unforgettable content. i truly enjoy working with creators and brands that aim to stand out. Let's build something incredible together!";
+  "I edit video for people who have something real to say and not enough time to say it. I edit documentaries and technical content, most of it for a YouTube channel built around information and tech/science research. That means I don't just trim B-roll and drop in transitions. I track an argument across a 40-minute conversation, decide which 90 seconds of a researcher's tangent actually matters, and pace the cut so people stay through the dense parts instead of clicking off.";
 
 export default function NewAbout() {
   return (
@@ -16,7 +16,13 @@ export default function NewAbout() {
     >
       {Object.entries(ABOUT_CORNER_IMAGES).map(([key, img]) => (
         // eslint-disable-next-line @next/next/no-img-element
-        <img key={key} src={img.src} alt={img.alt} className={img.className} loading="lazy" />
+        <img
+          key={key}
+          src={img.src}
+          alt={img.alt}
+          className={`hidden sm:block ${img.className}`}
+          loading="lazy"
+        />
       ))}
 
       <div className="relative z-10 flex flex-col items-center gap-10 sm:gap-14 md:gap-16">
@@ -31,7 +37,7 @@ export default function NewAbout() {
 
         <AnimatedText
           text={BIO}
-          className="max-w-[560px] text-center font-medium leading-relaxed text-[#D7E2EA]"
+          className="w-full max-w-[560px] px-4 text-center font-medium leading-relaxed text-[#D7E2EA]"
           style={{ fontSize: "clamp(1rem, 2vw, 1.35rem)" }}
         />
 
