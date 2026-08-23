@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
 
-const MONGODB_URI = process.env.MONGODB_URI;
-
 type MongooseCache = {
   conn: typeof mongoose | null;
   promise: Promise<typeof mongoose> | null;
@@ -12,14 +10,15 @@ g.mongooseConn ??= { conn: null, promise: null };
 const cache = g.mongooseConn;
 
 export async function connectDB(): Promise<typeof mongoose> {
-  if (!MONGODB_URI) {
+  const uri = process.env.MONGODB_URI;
+  if (!uri) {
     throw new Error("MONGODB_URI is not set");
   }
   if (cache.conn) {
     return cache.conn;
   }
   if (!cache.promise) {
-    cache.promise = mongoose.connect(MONGODB_URI);
+    cache.promise = mongoose.connect(uri);
   }
   cache.conn = await cache.promise;
   return cache.conn;

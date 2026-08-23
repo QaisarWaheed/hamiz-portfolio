@@ -8,6 +8,8 @@ import QuoteSection from "@/components/landing/QuoteSection";
 import ServicesSection from "@/components/landing/ServicesSection";
 import TestimonialsSection from "@/components/landing/TestimonialsSection";
 
+export const revalidate = 300;
+
 export default function HomePage() {
   return (
     <main className="min-h-screen overflow-x-clip bg-paper text-ink">

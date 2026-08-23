@@ -1,8 +1,8 @@
+import { listTestimonials } from "@/lib/data/testimonials";
 import { NextResponse } from "next/server";
+import { requireAdmin } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
 import Testimonial from "@/models/Testimonial";
-import { requireAdmin } from "@/lib/auth";
-import { demoTestimonials, useDemoContentFallback } from "@/lib/demo-content";
 import { z } from "zod";
 
 const createSchema = z.object({
@@ -13,22 +13,8 @@ const createSchema = z.object({
 });
 
 export async function GET() {
-  const fallback = useDemoContentFallback();
-  try {
-    await connectDB();
-    const items = await Testimonial.find().sort({ createdAt: -1 }).lean();
-    if (items.length === 0 && fallback) {
-      return NextResponse.json(demoTestimonials);
-    }
-    return NextResponse.json(items);
-  } catch (e) {
-    console.error(e);
-    if (fallback) {
-      console.warn("[api/testimonials] Using demo testimonials (database unavailable or misconfigured).");
-      return NextResponse.json(demoTestimonials);
-    }
-    return NextResponse.json({ error: "Failed to load testimonials" }, { status: 500 });
-  }
+  const items = await listTestimonials();
+  return NextResponse.json(items);
 }
 
 export async function POST(req: Request) {
