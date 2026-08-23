@@ -1,14 +1,12 @@
 import type { NextConfig } from "next";
 
+const cloudName = process.env.CLOUDINARY_CLOUD_NAME?.trim() || "dp42qy9co";
+
 const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
-      { protocol: "https", hostname: "res.cloudinary.com", pathname: "/**" },
-      { protocol: "https", hostname: "images.unsplash.com", pathname: "/**" },
-      { protocol: "https", hostname: "images.higgs.ai", pathname: "/**" },
-      { protocol: "https", hostname: "shrug-person-78902957.figma.site", pathname: "/**" },
-      { protocol: "https", hostname: "motionsites.ai", pathname: "/**" },
-      { protocol: "https", hostname: "**" },
+      { protocol: "https", hostname: "res.cloudinary.com", pathname: `/${cloudName}/**` },
+      { protocol: "https", hostname: "i.ytimg.com", pathname: "/vi/**" },
     ],
   },
 };
