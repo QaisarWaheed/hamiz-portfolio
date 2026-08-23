@@ -1,4 +1,5 @@
 import { listTestimonials } from "@/lib/data/testimonials";
+import { revalidateHomepage } from "@/lib/revalidate-home";
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
 import { connectDB } from "@/lib/db";
@@ -27,6 +28,7 @@ export async function POST(req: Request) {
     }
     await connectDB();
     const doc = await Testimonial.create(parsed.data);
+    revalidateHomepage();
     return NextResponse.json(doc.toObject());
   } catch (e) {
     if (e instanceof Response) return e;

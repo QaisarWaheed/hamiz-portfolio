@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Project from "@/models/Project";
 import { requireAdmin } from "@/lib/auth";
+import { revalidateHomepage } from "@/lib/revalidate-home";
 import mongoose from "mongoose";
 import { z } from "zod";
 
@@ -47,6 +48,7 @@ export async function PUT(req: Request, ctx: Ctx) {
     await connectDB();
     const doc = await Project.findByIdAndUpdate(id, parsed.data, { new: true });
     if (!doc) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    revalidateHomepage();
     return NextResponse.json(doc.toObject());
   } catch (e) {
     if (e instanceof Response) return e;
@@ -65,6 +67,7 @@ export async function DELETE(_req: Request, ctx: Ctx) {
     await connectDB();
     const res = await Project.findByIdAndDelete(id);
     if (!res) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    revalidateHomepage();
     return NextResponse.json({ ok: true });
   } catch (e) {
     if (e instanceof Response) return e;

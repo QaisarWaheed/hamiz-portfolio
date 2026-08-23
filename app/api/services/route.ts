@@ -1,4 +1,5 @@
 import { listServices, replaceAllServices } from "@/lib/data/services";
+import { revalidateHomepage } from "@/lib/revalidate-home";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { requireAdmin } from "@/lib/auth";
@@ -36,6 +37,7 @@ export async function PUT(req: Request) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
     const rows = await replaceAllServices(parsed.data.services);
+    revalidateHomepage();
     return NextResponse.json(rows);
   } catch (e) {
     if (e instanceof Response) return e;

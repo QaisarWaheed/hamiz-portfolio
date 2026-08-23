@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/db";
 import Testimonial from "@/models/Testimonial";
 import { requireAdmin } from "@/lib/auth";
+import { revalidateHomepage } from "@/lib/revalidate-home";
 import mongoose from "mongoose";
 import { z } from "zod";
 
@@ -29,6 +30,7 @@ export async function PUT(req: Request, ctx: Ctx) {
     await connectDB();
     const doc = await Testimonial.findByIdAndUpdate(id, parsed.data, { new: true });
     if (!doc) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    revalidateHomepage();
     return NextResponse.json(doc.toObject());
   } catch (e) {
     if (e instanceof Response) return e;
@@ -47,6 +49,7 @@ export async function DELETE(_req: Request, ctx: Ctx) {
     await connectDB();
     const res = await Testimonial.findByIdAndDelete(id);
     if (!res) return NextResponse.json({ error: "Not found" }, { status: 404 });
+    revalidateHomepage();
     return NextResponse.json({ ok: true });
   } catch (e) {
     if (e instanceof Response) return e;

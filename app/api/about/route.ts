@@ -1,4 +1,5 @@
 import { getAboutRecord } from "@/lib/data/about";
+import { revalidateHomepage } from "@/lib/revalidate-home";
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
 import { getOrCreateAbout } from "@/models/About";
@@ -33,6 +34,7 @@ export async function PUT(req: Request) {
     const doc = await getOrCreateAbout();
     Object.assign(doc, parsed.data);
     await doc.save();
+    revalidateHomepage();
     return NextResponse.json(doc.toObject());
   } catch (e) {
     if (e instanceof Response) return e;
