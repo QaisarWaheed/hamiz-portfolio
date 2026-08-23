@@ -3,6 +3,8 @@
 export const CLIENT_NAME = "Hamiz Khan";
 
 export const PORTRAIT_URL = "/portrait.placeholder.png";
+/** Source dimensions for client portrait asset (3:4). */
+export const PORTRAIT_ASPECT = "3 / 4" as const;
 
 export const HERO_SPARK_ONE = "/hero-spark-1.placeholder.png";
 export const HERO_SPARK_TWO = "/hero-spark-2.placeholder.png";
@@ -24,16 +26,18 @@ export const FOOTER_HEADLINE_LINES = [
 export const CONTACT_EMAIL = "hello@hamizkhan.com";
 
 export const NAV_LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#work", label: "Work" },
+  { href: "#hero-section", label: "Home" },
+  { href: "#bio-section", label: "About Me" },
   { href: "#services", label: "Services" },
+  { href: "#work", label: "Works" },
   { href: "#contact", label: "Contact" },
 ] as const;
 
 export const FOOTER_QUICK_LINKS = [
-  { href: "#about", label: "About" },
-  { href: "#work", label: "Work" },
+  { href: "#hero-section", label: "Home" },
+  { href: "#bio-section", label: "About Me" },
   { href: "#services", label: "Services" },
+  { href: "#work", label: "Works" },
   { href: "#testimonials", label: "Testimonials" },
   { href: "#contact", label: "Contact" },
 ] as const;

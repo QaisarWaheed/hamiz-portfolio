@@ -12,6 +12,7 @@ function toTestimonialItem(raw: Record<string, unknown>): TestimonialItem {
     role: String(row.role ?? ""),
     message: String(row.message ?? ""),
     imageUrl: row.imageUrl ? String(row.imageUrl) : undefined,
+    companyLogo: row.companyLogo ? String(row.companyLogo) : undefined,
   };
 }
 

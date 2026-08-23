@@ -4,7 +4,7 @@ import AdminShell from "@/components/AdminShell";
 import type { TestimonialItem } from "@/lib/landing-types";
 import { useEffect, useState } from "react";
 
-const empty = { name: "", role: "", message: "", imageUrl: "" };
+const empty = { name: "", role: "", message: "", imageUrl: "", companyLogo: "" };
 
 export default function AdminTestimonialsPage() {
   const [items, setItems] = useState<TestimonialItem[]>([]);
@@ -64,6 +64,7 @@ export default function AdminTestimonialsPage() {
       role: t.role,
       message: t.message,
       imageUrl: t.imageUrl ?? "",
+      companyLogo: t.companyLogo ?? "",
     });
   }
 
@@ -88,6 +89,28 @@ export default function AdminTestimonialsPage() {
       const { url } = (await res.json()) as { url: string };
       setForm((f) => ({ ...f, imageUrl: url }));
       setMsg("Photo uploaded — save the testimonial to keep it.");
+    } catch (e) {
+      setMsg(e instanceof Error ? e.message : "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  async function onLogoFile(file: File | null) {
+    if (!file) return;
+    setUploading(true);
+    setMsg(null);
+    try {
+      const fd = new FormData();
+      fd.append("file", file);
+      const res = await fetch("/api/upload", { method: "POST", body: fd });
+      if (!res.ok) {
+        const err = (await res.json()) as { error?: string };
+        throw new Error(err.error ?? "Upload failed");
+      }
+      const { url } = (await res.json()) as { url: string };
+      setForm((f) => ({ ...f, companyLogo: url }));
+      setMsg("Company logo uploaded — save the testimonial to keep it.");
     } catch (e) {
       setMsg(e instanceof Error ? e.message : "Upload failed");
     } finally {
@@ -171,6 +194,38 @@ export default function AdminTestimonialsPage() {
                   src={form.imageUrl}
                   alt=""
                   className="h-12 w-12 rounded-full border border-white/10 object-cover"
+                />
+              ) : null}
+            </div>
+          </div>
+          <div className="md:col-span-2">
+            <label className="text-xs text-muted">Company logo URL (optional, ~160px wide)</label>
+            <input
+              className="mt-1 w-full rounded-xl border border-white/10 bg-canvas px-3 py-2 text-sm"
+              value={form.companyLogo}
+              onChange={(e) => setForm({ ...form, companyLogo: e.target.value })}
+              placeholder="https://… or upload below"
+            />
+            <div className="mt-2 flex flex-wrap items-center gap-3">
+              <label className="text-xs text-muted">
+                Upload logo
+                <input
+                  type="file"
+                  accept="image/*"
+                  disabled={uploading}
+                  className="ml-2 text-sm text-main file:mr-2 file:rounded-lg file:border-0 file:bg-accent file:px-2 file:py-1 file:text-xs file:text-white"
+                  onChange={(e) => {
+                    void onLogoFile(e.target.files?.[0] ?? null);
+                    e.target.value = "";
+                  }}
+                />
+              </label>
+              {form.companyLogo ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={form.companyLogo}
+                  alt=""
+                  className="h-12 max-w-[160px] object-contain"
                 />
               ) : null}
             </div>

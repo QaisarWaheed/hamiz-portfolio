@@ -11,6 +11,7 @@ const createSchema = z.object({
   role: z.string().optional(),
   message: z.string().min(1),
   imageUrl: z.string().max(2000).optional().default(""),
+  companyLogo: z.string().max(2000).optional().default(""),
 });
 
 export async function GET() {

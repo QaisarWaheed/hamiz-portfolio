@@ -34,4 +34,5 @@ export type TestimonialItem = {
   role: string;
   message: string;
   imageUrl?: string;
+  companyLogo?: string;
 };

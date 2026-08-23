@@ -11,6 +11,7 @@ const updateSchema = z.object({
   role: z.string().optional(),
   message: z.string().min(1).optional(),
   imageUrl: z.string().max(2000).optional(),
+  companyLogo: z.string().max(2000).optional(),
 });
 
 type Ctx = { params: Promise<{ id: string }> };

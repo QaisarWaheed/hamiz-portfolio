@@ -44,6 +44,23 @@ function TestimonialAvatar({ item }: { item: TestimonialItem }) {
   );
 }
 
+function CompanyLogo({ url }: { url: string }) {
+  const [broken, setBroken] = useState(false);
+  const src = url.trim();
+  if (!src || broken) return null;
+
+  return (
+    <Image
+      src={src}
+      alt=""
+      width={160}
+      height={160}
+      className="h-auto max-h-16 w-auto max-w-[160px] shrink-0 object-contain object-right"
+      onError={() => setBroken(true)}
+    />
+  );
+}
+
 const ease = [0.25, 0.1, 0.25, 1] as const;
 
 const gridVariants = {
@@ -91,12 +108,15 @@ export default function TestimonialsGrid({ items }: TestimonialsGridProps) {
               className="flex h-full flex-col justify-between border border-line bg-paper p-6 sm:p-8"
             >
               <p className="text-base leading-relaxed text-ink">&ldquo;{item.message}&rdquo;</p>
-              <div className="mt-8 flex items-center gap-4">
-                <TestimonialAvatar item={item} />
-                <div>
-                  <p className="font-medium text-ink">{item.name}</p>
-                  {item.role ? <p className="text-sm text-muted">{item.role}</p> : null}
+              <div className="mt-8 flex items-end justify-between gap-4">
+                <div className="flex min-w-0 items-center gap-4">
+                  <TestimonialAvatar item={item} />
+                  <div className="min-w-0">
+                    <p className="font-medium text-ink">{item.name}</p>
+                    {item.role ? <p className="text-sm text-muted">{item.role}</p> : null}
+                  </div>
                 </div>
+                {item.companyLogo ? <CompanyLogo url={item.companyLogo} /> : null}
               </div>
             </motion.article>
           ))}

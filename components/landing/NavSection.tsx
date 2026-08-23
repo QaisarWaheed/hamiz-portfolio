@@ -1,6 +1,6 @@
 "use client";
 
-import { CLIENT_NAME } from "@/components/landing/landing-content";
+import { CLIENT_NAME, NAV_LINKS } from "@/components/landing/landing-content";
 import { useEffect, useId, useRef, useState } from "react";
 
 export default function NavSection() {
@@ -31,7 +31,9 @@ export default function NavSection() {
         className="fixed left-1/2 z-10 flex w-[calc(100%-48px)] max-w-[320px] -translate-x-1/2 items-center justify-between rounded-[18px] bg-[#111] px-4 py-3 text-[18px] font-bold text-white max-[809px]:top-[18px] min-[810px]:top-[30px]"
         style={{ width: "min(320px, calc(100% - 48px))" }}
       >
-        <span className="truncate">{CLIENT_NAME}</span>
+        <a href="#hero-section" className="truncate">
+          {CLIENT_NAME}
+        </a>
         <button
           ref={triggerRef}
           type="button"
@@ -52,13 +54,7 @@ export default function NavSection() {
           aria-label="Site menu"
         >
           <ul className="flex flex-col gap-1">
-            {[
-              { href: "#about", label: "About" },
-              { href: "#work", label: "Work" },
-              { href: "#services", label: "Services" },
-              { href: "#testimonials", label: "Testimonials" },
-              { href: "#contact", label: "Contact" },
-            ].map((link) => (
+            {NAV_LINKS.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}

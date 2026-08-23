@@ -6,6 +6,7 @@ const testimonialSchema = new Schema(
     role: { type: String, default: "" },
     message: { type: String, required: true },
     imageUrl: { type: String, default: "" },
+    companyLogo: { type: String, default: "" },
   },
   { timestamps: { createdAt: true, updatedAt: true } }
 );

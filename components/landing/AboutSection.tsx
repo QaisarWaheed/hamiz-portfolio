@@ -5,7 +5,7 @@ export default async function AboutSection() {
   const about = await getAboutForLanding();
 
   return (
-    <section id="about" className="border-b border-line">
+    <section id="bio-section" className="border-b border-line">
       <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
         <SectionReveal>
           <p className="text-xs uppercase tracking-[0.22em] text-muted">About</p>
