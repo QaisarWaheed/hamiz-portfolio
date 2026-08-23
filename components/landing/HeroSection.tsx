@@ -48,19 +48,39 @@ export default function HeroSection() {
           aria-hidden
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={HERO_SPARK_STAR} alt="" className="h-auto w-full" draggable={false} />
+          <img
+            src={HERO_SPARK_STAR}
+            alt=""
+            width={420}
+            height={420}
+            loading="lazy"
+            fetchPriority="low"
+            decoding="async"
+            className="h-auto w-full"
+            draggable={false}
+          />
         </motion.div>
 
         <motion.div
           className="pointer-events-none absolute z-[2] w-[85px] select-none min-[810px]:w-[140px]"
-          style={{ top: "58%", right: "-8%", rotate: "18deg", y: sparkTwoY }}
+          style={{ top: "58%", right: "-8px", rotate: "18deg", y: sparkTwoY }}
           initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.75, delay: 0.35, ease }}
           aria-hidden
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={HERO_SPARK_BOLT} alt="" className="h-auto w-full" draggable={false} />
+          <img
+            src={HERO_SPARK_BOLT}
+            alt=""
+            width={420}
+            height={420}
+            loading="lazy"
+            fetchPriority="low"
+            decoding="async"
+            className="h-auto w-full"
+            draggable={false}
+          />
         </motion.div>
 
         <div className="relative mx-auto flex min-h-0 w-full max-w-6xl flex-1 grid-cols-1 gap-10 px-6 pb-12 md:grid md:grid-cols-[minmax(0,1fr)_auto] md:items-end md:gap-16 md:pb-16">
