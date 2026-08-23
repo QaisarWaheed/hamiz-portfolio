@@ -31,6 +31,7 @@ export default function HeroSection() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.75, delay: 0.25, ease }}
+        aria-hidden
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={HERO_SPARK_ONE} alt="" className="h-auto w-full" draggable={false} />
@@ -42,6 +43,7 @@ export default function HeroSection() {
         initial={{ opacity: 0, y: 24 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.75, delay: 0.35, ease }}
+        aria-hidden
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src={HERO_SPARK_TWO} alt="" className="h-auto w-full" draggable={false} />
