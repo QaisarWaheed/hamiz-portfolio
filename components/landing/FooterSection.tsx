@@ -10,7 +10,7 @@ import {
 export default function FooterSection() {
   return (
     <footer className="overflow-hidden bg-dark pt-[90px] text-paper">
-      <div className="mx-auto max-w-6xl px-6">
+      <div className="section-container">
         <div className="grid gap-[50px] min-[810px]:grid-cols-[1.2fr_1fr_1fr]">
           <div>
             <h2

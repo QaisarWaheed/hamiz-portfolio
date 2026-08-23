@@ -11,12 +11,9 @@ export default async function ServicesSection() {
 
   return (
     <section id="services" className="border-b border-line">
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <div className="section-container section-padding">
         <SectionReveal>
-          <p className="text-xs uppercase tracking-[0.22em] text-muted">Services</p>
-          <h2 className="mt-3 text-3xl font-medium tracking-tight text-ink sm:text-4xl">
-            What I edit
-          </h2>
+          <h2 className="section-heading text-ink">What I edit</h2>
         </SectionReveal>
         <ServicesList services={services} />
       </div>

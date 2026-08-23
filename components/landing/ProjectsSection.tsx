@@ -11,12 +11,9 @@ export default async function ProjectsSection() {
 
   return (
     <section id="work" className="border-b border-line">
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <div className="section-container section-padding-tight-bottom">
         <SectionReveal>
-          <p className="text-xs uppercase tracking-[0.22em] text-muted">Selected work</p>
-          <h2 className="mt-3 text-3xl font-medium tracking-tight text-ink sm:text-4xl">
-            Projects
-          </h2>
+          <h2 className="section-heading text-ink">Projects</h2>
         </SectionReveal>
 
         <ProjectsGridClient

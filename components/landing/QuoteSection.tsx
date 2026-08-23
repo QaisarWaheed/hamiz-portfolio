@@ -55,16 +55,17 @@ export default function QuoteSection() {
   return (
     <section
       ref={sectionRef}
-      className="flex min-h-[150vh] items-center justify-center border-b border-line px-6 py-24"
+      className="flex min-h-[150vh] items-center justify-center border-b border-line py-24"
     >
-      <p
-        className="max-w-[900px] text-center font-medium text-ink"
-        style={{
-          fontSize: "clamp(32px, 4vw, 56px)",
-          lineHeight: 1.07,
-          letterSpacing: "-0.07em",
-        }}
-      >
+      <div className="section-container">
+        <p
+          className="mx-auto text-center font-medium text-ink"
+          style={{
+            fontSize: "clamp(32px, 4vw, 56px)",
+            lineHeight: 1.07,
+            letterSpacing: "-0.07em",
+          }}
+        >
         {words.map((word, index) => (
           <span key={`${word}-${index}`}>
             <QuoteWord
@@ -77,7 +78,8 @@ export default function QuoteSection() {
             {index < words.length - 1 ? "\u00A0" : null}
           </span>
         ))}
-      </p>
+        </p>
+      </div>
     </section>
   );
 }

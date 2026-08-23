@@ -74,7 +74,7 @@ export default function HeroSection() {
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div
           ref={stageRef}
-          className="relative mx-auto h-full w-full max-w-[1180px] px-[50px] max-[809px]:px-5"
+          className="relative mx-auto h-full w-full max-w-[1180px] px-6 min-[810px]:px-[50px]"
         >
           {/* Decorative sparks — kept off headline on mobile */}
           <motion.div
@@ -122,7 +122,7 @@ export default function HeroSection() {
           {/* 1. Headline — shared size, ragged line widths */}
           <h1
             ref={headlineRef}
-            className="absolute inset-x-[50px] top-1/2 z-20 -translate-y-1/2 text-center font-extrabold leading-[0.9] tracking-[-0.02em] text-ink max-[809px]:inset-x-5 max-[809px]:text-[clamp(57px,15.2vw,100px)] min-[810px]:text-[clamp(80px,13.6vw,174px)]"
+            className="absolute inset-x-6 top-1/2 z-20 -translate-y-1/2 text-center font-extrabold leading-[0.9] tracking-[-0.02em] text-ink max-[809px]:text-[clamp(57px,15.2vw,100px)] min-[810px]:inset-x-[50px] min-[810px]:text-[clamp(80px,13.6vw,174px)]"
           >
             <span className="block whitespace-nowrap">{HERO_HEADLINE_LINES[0]}</span>
             <span ref={line2Ref} className="block whitespace-nowrap">
@@ -154,7 +154,7 @@ export default function HeroSection() {
           </div>
 
           {/* 3 & 4. Bottom row */}
-          <div className="absolute inset-x-[50px] bottom-5 z-20 flex items-end justify-between max-[809px]:inset-x-5">
+          <div className="absolute inset-x-6 bottom-5 z-20 flex items-end justify-between min-[810px]:inset-x-[50px]">
             <span
               className="font-semibold leading-none tracking-[-0.07em] text-ink max-[809px]:text-[42px] min-[810px]:text-[64px]"
               style={{ letterSpacing: "-0.07em" }}

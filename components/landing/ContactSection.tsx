@@ -49,12 +49,9 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="bg-dark text-paper">
-      <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+      <div className="section-container contact-section-padding">
         <SectionReveal>
-          <p className="text-xs uppercase tracking-[0.22em] text-paper/50">Contact</p>
-          <h2 className="mt-3 text-3xl font-medium tracking-tight sm:text-4xl">
-            Let&apos;s work together
-          </h2>
+          <h2 className="section-heading text-paper">Let&apos;s work together</h2>
           <p className="mt-4 max-w-xl text-base leading-relaxed text-paper/60">
             Have a project in mind? Fill out the form and I&apos;ll get back to you.
           </p>

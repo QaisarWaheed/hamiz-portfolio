@@ -38,3 +38,30 @@ body {
   background-color: color-mix(in srgb, var(--color-ink) 12%, transparent);
   color: var(--color-ink);
 }
+
+@layer components {
+  .section-container {
+    @apply mx-auto max-w-[1180px] px-6 min-[810px]:px-[50px];
+  }
+
+  .section-heading {
+    @apply text-[46px] font-semibold leading-none tracking-[-0.02em];
+  }
+
+  /* Visual inter-section gaps (1280): services→projects ~151px, projects→testimonials ~110px */
+  .section-padding {
+    @apply py-12 min-[810px]:py-[52px];
+  }
+
+  .section-padding-tight-bottom {
+    @apply pt-12 pb-8 min-[810px]:pt-[52px] min-[810px]:pb-[38px];
+  }
+
+  .section-padding-tight-top {
+    @apply pt-8 pb-12 min-[810px]:pt-[38px] min-[810px]:pb-[52px];
+  }
+
+  .contact-section-padding {
+    @apply py-12 pb-20 min-[810px]:py-[52px] min-[810px]:pb-[116px];
+  }
+}
