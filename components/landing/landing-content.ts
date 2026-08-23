@@ -9,10 +9,12 @@ export const PORTRAIT_ASPECT = "3 / 4" as const;
 export const HERO_SPARK_STAR = "/hero-spark-star.avif";
 export const HERO_SPARK_BOLT = "/hero-spark-bolt.avif";
 
-export const HERO_EYEBROW = "Video editor";
+/** Hero headline — two lines, centred (profession until client supplies final copy). */
+export const HERO_HEADLINE_LINES = ["VIDEO", "EDITOR"] as const;
 
-export const HERO_TAGLINE =
-  "Editor for documentaries and technical videos — long-form narrative, research interviews, and YouTube content that keeps people watching.";
+export const HERO_COPYRIGHT = "©2026";
+
+export const HERO_CREDIT_LINE = "/CREATING SINCE 2020";
 
 export const QUOTE_COPY =
   "From idea to launch. Clean, scalable digital products built to move fast, stay simple, and perform in real-world use, driven by clarity, structured systems, and intentional design.";
