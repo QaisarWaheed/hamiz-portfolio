@@ -1,0 +1,164 @@
+"use client";
+
+import SectionReveal from "@/components/landing/SectionReveal";
+import type { TestimonialItem } from "@/lib/landing-types";
+import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+
+function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join("")
+    .slice(0, 2)
+    .toUpperCase();
+}
+
+function TestimonialAvatar({ item }: { item: TestimonialItem }) {
+  const [broken, setBroken] = useState(false);
+  const url = (item.imageUrl ?? "").trim();
+
+  if (url && !broken) {
+    return (
+      // eslint-disable-next-line @next/next/no-img-element
+      <img
+        src={url}
+        alt=""
+        className="h-12 w-12 shrink-0 rounded-full border border-line object-cover"
+        onError={() => setBroken(true)}
+      />
+    );
+  }
+
+  return (
+    <div
+      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line bg-line text-sm font-medium text-muted"
+      aria-hidden
+    >
+      {initials(item.name)}
+    </div>
+  );
+}
+
+const gridVariants = {
+  hidden: {},
+  show: {
+    transition: { staggerChildren: 0.08 },
+  },
+};
+
+const ease = [0.25, 0.1, 0.25, 1] as const;
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease },
+  },
+};
+
+/** Pick 1–3 columns so the last row is never a single orphan when avoidable. */
+function testimonialColumnCount(count: number): number {
+  if (count <= 1) return 1;
+  const maxCols = Math.min(count, 3);
+  let best = 1;
+  let bestRemainder = count;
+  for (let cols = 1; cols <= maxCols; cols += 1) {
+    const remainder = count % cols;
+    if (remainder < bestRemainder) {
+      bestRemainder = remainder;
+      best = cols;
+    }
+  }
+  return best;
+}
+
+const GRID_COLS: Record<number, string> = {
+  1: "grid-cols-1",
+  2: "grid-cols-1 sm:grid-cols-2",
+  3: "grid-cols-1 sm:grid-cols-3",
+};
+
+export default function TestimonialsSection() {
+  const [items, setItems] = useState<TestimonialItem[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await fetch("/api/testimonials", { cache: "no-store" });
+        const data: unknown = await res.json();
+        if (cancelled) return;
+        if (Array.isArray(data)) {
+          setItems(data as TestimonialItem[]);
+        }
+      } catch {
+        if (!cancelled) setItems([]);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  if (!loading && items.length === 0) {
+    return null;
+  }
+
+  const columnCount = testimonialColumnCount(items.length);
+  const gridClass = GRID_COLS[columnCount] ?? GRID_COLS[3];
+
+  return (
+    <section id="testimonials" className="border-b border-line">
+      <div className="mx-auto max-w-6xl px-6 py-20 sm:py-24">
+        <SectionReveal>
+          <p className="text-xs uppercase tracking-[0.22em] text-muted">Testimonials</p>
+          <h2 className="mt-3 text-3xl font-medium tracking-tight text-ink sm:text-4xl">
+            Client words
+          </h2>
+        </SectionReveal>
+
+        {loading ? (
+          <div className="mt-16 flex justify-center py-16">
+            <div
+              className="h-10 w-10 animate-spin rounded-full border-2 border-line border-t-ink"
+              aria-label="Loading testimonials"
+            />
+          </div>
+        ) : (
+          <motion.div
+            className={`mt-12 grid gap-6 ${gridClass}`}
+            variants={gridVariants}
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "-8% 0px", amount: 0.08 }}
+          >
+            {items.map((item) => (
+              <motion.article
+                key={item._id}
+                variants={cardVariants}
+                className="flex h-full flex-col justify-between border border-line bg-paper p-6 sm:p-8"
+              >
+                <p className="text-base leading-relaxed text-ink">&ldquo;{item.message}&rdquo;</p>
+                <div className="mt-8 flex items-center gap-4">
+                  <TestimonialAvatar item={item} />
+                  <div>
+                    <p className="font-medium text-ink">{item.name}</p>
+                    {item.role ? (
+                      <p className="text-sm text-muted">{item.role}</p>
+                    ) : null}
+                  </div>
+                </div>
+              </motion.article>
+            ))}
+          </motion.div>
+        )}
+      </div>
+    </section>
+  );
+}

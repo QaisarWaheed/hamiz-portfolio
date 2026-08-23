@@ -1,22 +1,25 @@
-import "./landing-v3.css";
-import NewAbout from "@/components/landing/NewAbout";
-import NewContact from "@/components/landing/NewContact";
-import NewFooter from "@/components/landing/NewFooter";
-import NewHero from "@/components/landing/NewHero";
-import NewMarquee from "@/components/landing/NewMarquee";
-import NewProjects from "@/components/landing/NewProjects";
-import NewServices from "@/components/landing/NewServices";
+import AboutSection from "@/components/landing/AboutSection";
+import ContactSection from "@/components/landing/ContactSection";
+import FooterSection from "@/components/landing/FooterSection";
+import HeroSection from "@/components/landing/HeroSection";
+import NavSection from "@/components/landing/NavSection";
+import ProjectsSection from "@/components/landing/ProjectsSection";
+import QuoteSection from "@/components/landing/QuoteSection";
+import ServicesSection from "@/components/landing/ServicesSection";
+import TestimonialsSection from "@/components/landing/TestimonialsSection";
 
 export default function HomePage() {
   return (
     <main className="min-h-screen overflow-x-clip bg-paper text-ink">
-      <NewHero />
-      <NewMarquee />
-      <NewAbout />
-      <NewServices />
-      <NewProjects />
-      <NewContact />
-      <NewFooter />
+      <NavSection />
+      <HeroSection />
+      <AboutSection />
+      <QuoteSection />
+      <ServicesSection />
+      <ProjectsSection />
+      <TestimonialsSection />
+      <ContactSection />
+      <FooterSection />
     </main>
   );
 }
