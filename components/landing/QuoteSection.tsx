@@ -10,8 +10,10 @@ import {
 } from "framer-motion";
 import { useMemo, useRef } from "react";
 
-const WORD_FADED = "#d6d3ce";
+const WORD_FADED = "rgba(0, 0, 0, 0.1)";
 const WORD_INK = "#121212";
+
+const REVEAL_BY = 0.72;
 
 function QuoteWord({
   word,
@@ -26,14 +28,10 @@ function QuoteWord({
   scrollYProgress: MotionValue<number>;
   reducedMotion: boolean;
 }) {
-  const start = total <= 1 ? 0 : (index - 1) / (total - 1);
-  const end = total <= 1 ? 1 : index / (total - 1);
+  const start = (index / total) * REVEAL_BY;
+  const end = ((index + 1) / total) * REVEAL_BY;
 
-  const color = useTransform(
-    scrollYProgress,
-    index === 0 ? [0, 1] : [Math.max(0, start), Math.min(1, end)],
-    index === 0 ? [WORD_INK, WORD_INK] : [WORD_FADED, WORD_INK]
-  );
+  const color = useTransform(scrollYProgress, [start, end], [WORD_FADED, WORD_INK]);
 
   if (reducedMotion) {
     return <span className="text-ink">{word}</span>;
@@ -49,35 +47,28 @@ export default function QuoteSection() {
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start 0.85", "end 0.15"],
+    offset: ["start end", "end start"],
   });
 
   return (
     <section
       ref={sectionRef}
-      className="flex min-h-[150vh] items-center justify-center border-b border-line py-24"
+      className="relative flex min-h-[150vh] items-center justify-center border-b border-line py-24"
     >
       <div className="section-container">
-        <p
-          className="mx-auto text-center font-medium text-ink"
-          style={{
-            fontSize: "clamp(32px, 4vw, 56px)",
-            lineHeight: 1.07,
-            letterSpacing: "-0.07em",
-          }}
-        >
-        {words.map((word, index) => (
-          <span key={`${word}-${index}`}>
-            <QuoteWord
-              word={word}
-              index={index}
-              total={words.length}
-              scrollYProgress={scrollYProgress}
-              reducedMotion={Boolean(reducedMotion)}
-            />
-            {index < words.length - 1 ? "\u00A0" : null}
-          </span>
-        ))}
+        <p className="w-full text-center text-[24px] font-medium leading-[1.2] tracking-[-0.02em] text-ink min-[810px]:text-[36px]">
+          {words.map((word, index) => (
+            <span key={`${word}-${index}`}>
+              <QuoteWord
+                word={word}
+                index={index}
+                total={words.length}
+                scrollYProgress={scrollYProgress}
+                reducedMotion={Boolean(reducedMotion)}
+              />
+              {index < words.length - 1 ? "\u00A0" : null}
+            </span>
+          ))}
         </p>
       </div>
     </section>
