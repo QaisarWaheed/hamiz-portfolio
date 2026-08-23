@@ -1,8 +1,7 @@
+import { listServices, replaceAllServices } from "@/lib/data/services";
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { connectDB } from "@/lib/db";
 import { requireAdmin } from "@/lib/auth";
-import Service from "@/models/Service";
 
 const serviceSchema = z.object({
   _id: z.string().optional(),
@@ -21,8 +20,7 @@ const putSchema = z.object({ services: z.array(serviceSchema) });
 
 export async function GET() {
   try {
-    await connectDB();
-    const rows = await Service.find().sort({ order: 1, createdAt: 1 }).lean();
+    const rows = await listServices();
     return NextResponse.json(rows);
   } catch {
     return NextResponse.json({ error: "Could not load services" }, { status: 500 });
@@ -37,21 +35,7 @@ export async function PUT(req: Request) {
     if (!parsed.success) {
       return NextResponse.json({ error: "Invalid payload" }, { status: 400 });
     }
-    await connectDB();
-    await Service.deleteMany({});
-    if (parsed.data.services.length) {
-      await Service.insertMany(
-        parsed.data.services.map((s, i) => ({
-          order: s.order ?? i,
-          num: s.num,
-          title: s.title,
-          description: s.description,
-          videoSource: s.videoSource ?? "none",
-          videoUrl: s.videoUrl ?? "",
-        }))
-      );
-    }
-    const rows = await Service.find().sort({ order: 1, createdAt: 1 }).lean();
+    const rows = await replaceAllServices(parsed.data.services);
     return NextResponse.json(rows);
   } catch (e) {
     if (e instanceof Response) return e;

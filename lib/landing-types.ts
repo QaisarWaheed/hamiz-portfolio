@@ -35,16 +35,3 @@ export type TestimonialItem = {
   message: string;
   imageUrl?: string;
 };
-
-export type PricingRow = {
-  _id: string;
-  order: number;
-  name: string;
-  who: string;
-  priceAmt: string;
-  priceUnit: string;
-  featured: boolean;
-  badge: string;
-  features: string[];
-  bookLabel: string;
-};

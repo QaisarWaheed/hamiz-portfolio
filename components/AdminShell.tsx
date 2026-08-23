@@ -8,7 +8,6 @@ const nav = [
   { href: "/admin/projects", label: "Projects" },
   { href: "/admin/testimonials", label: "Testimonials" },
   { href: "/admin/services", label: "Services" },
-  { href: "/admin/pricing", label: "Pricing" },
   { href: "/admin/about", label: "About" },
 ];
 

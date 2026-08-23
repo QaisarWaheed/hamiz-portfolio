@@ -14,17 +14,12 @@ const cards = [
   },
   {
     title: "Services",
-    desc: "Edit the three homepage service rows.",
+    desc: "Edit homepage service rows shown on the landing page.",
     href: "/admin/services",
   },
   {
-    title: "Pricing",
-    desc: "Edit the three pricing tiers and feature lists.",
-    href: "/admin/pricing",
-  },
-  {
     title: "About & contact copy",
-    desc: "Edit headline, bio, and email for the about block and contact mailto.",
+    desc: "Edit headline, bio, and email for the about block.",
     href: "/admin/about",
   },
 ];

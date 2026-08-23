@@ -1,3 +1,4 @@
+import { getAboutRecord } from "@/lib/data/about";
 import { NextResponse } from "next/server";
 import { requireAdmin } from "@/lib/auth";
 import { getOrCreateAbout } from "@/models/About";
@@ -13,8 +14,8 @@ const updateSchema = z.object({
 
 export async function GET() {
   try {
-    const doc = await getOrCreateAbout();
-    return NextResponse.json(doc.toObject());
+    const about = await getAboutRecord();
+    return NextResponse.json(about);
   } catch (e) {
     console.error(e);
     return NextResponse.json({ error: "Failed to load about" }, { status: 500 });
