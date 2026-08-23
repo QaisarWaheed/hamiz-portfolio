@@ -1,6 +1,11 @@
 import type { NextConfig } from "next";
 
-const cloudName = process.env.CLOUDINARY_CLOUD_NAME?.trim() || "dp42qy9co";
+const cloudName = process.env.CLOUDINARY_CLOUD_NAME?.trim();
+if (!cloudName) {
+  throw new Error(
+    "CLOUDINARY_CLOUD_NAME is not set. Add it to .env before building so next/image remotePatterns match your Cloudinary account."
+  );
+}
 
 const nextConfig: NextConfig = {
   images: {

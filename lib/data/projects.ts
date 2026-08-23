@@ -1,13 +1,13 @@
 import { connectDB } from "@/lib/db";
 import { demoProjects, useDemoContentFallback } from "@/lib/demo-content";
 import type { ProjectItem, ProjectsPage } from "@/lib/landing-types";
+import { PROJECTS_DISPLAY_LIMIT } from "@/lib/projects-display";
 import Project from "@/models/Project";
 import { serializeId } from "./serialize";
 
 const SORT = { updatedAt: -1 as const, createdAt: -1 as const };
 
-/** Home section shows at most this many cards; "View all work" uses total count. */
-export const PROJECTS_DISPLAY_LIMIT = 4;
+export { PROJECTS_DISPLAY_LIMIT };
 
 function toProjectItem(raw: Record<string, unknown>): ProjectItem {
   const row = serializeId(raw as { _id: string } & Record<string, unknown>);
