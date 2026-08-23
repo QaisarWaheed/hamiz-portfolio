@@ -15,8 +15,7 @@ export const demoProjects = [
     category: "Fashion",
     videoUrl:
       "https://assets.mixkit.co/videos/preview/mixkit-woman-running-above-a-bridge-in-a-park-43817-large.mp4",
-    thumbnail:
-      "https://images.unsplash.com/photo-1469334031218-e382a71b716b?w=1200&q=80&auto=format&fit=crop",
+    thumbnail: "https://i.ytimg.com/vi/0/hqdefault.jpg",
     createdAt: "2025-01-10T12:00:00.000Z",
     updatedAt: "2025-01-10T12:00:00.000Z",
   },
@@ -27,8 +26,7 @@ export const demoProjects = [
       "Behind-the-studio portrait: handheld warmth, interview weave, and live performance energy.",
     category: "Documentary",
     videoUrl: "https://www.youtube.com/watch?v=LXb3EKWsInQ",
-    thumbnail:
-      "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1200&q=80&auto=format&fit=crop",
+    thumbnail: "https://i.ytimg.com/vi/LXb3EKWsInQ/hqdefault.jpg",
     createdAt: "2025-01-18T12:00:00.000Z",
     updatedAt: "2025-01-18T12:00:00.000Z",
   },
@@ -40,8 +38,7 @@ export const demoProjects = [
     category: "Commercial",
     videoUrl:
       "https://assets.mixkit.co/videos/preview/mixkit-highway-at-night-from-a-moving-car-1630-large.mp4",
-    thumbnail:
-      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80&auto=format&fit=crop",
+    thumbnail: "https://i.ytimg.com/vi/0/hqdefault.jpg",
     createdAt: "2025-02-02T12:00:00.000Z",
     updatedAt: "2025-02-02T12:00:00.000Z",
   },
@@ -52,8 +49,7 @@ export const demoProjects = [
     category: "Commercial",
     videoUrl:
       "https://assets.mixkit.co/videos/preview/mixkit-girl-in-neon-sign-1532-large.mp4",
-    thumbnail:
-      "https://images.unsplash.com/photo-1556228578-0d85b1a4d571?w=1200&q=80&auto=format&fit=crop",
+    thumbnail: "https://i.ytimg.com/vi/0/hqdefault.jpg",
     createdAt: "2025-02-20T12:00:00.000Z",
     updatedAt: "2025-02-20T12:00:00.000Z",
   },
@@ -61,7 +57,7 @@ export const demoProjects = [
 
 /** Single-site About block (MongoDB key `main`). */
 export const demoAbout = {
-  headline: "Hamiz Khan",
+  headline: "Documentary pacing, technical clarity.",
   bio: "Video editor crafting cinematic stories from raw footage. Based on emotion, rhythm, and picture-perfect pacing.",
   email: "hello@hamizkhan.com",
   instagram: "",
