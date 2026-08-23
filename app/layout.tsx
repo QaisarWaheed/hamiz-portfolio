@@ -1,34 +1,12 @@
 import type { Metadata } from "next";
-import { Fraunces, Inter, JetBrains_Mono, Kanit } from "next/font/google";
+import { Archivo } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
+const archivo = Archivo({
   subsets: ["latin"],
-  variable: "--font-inter",
+  variable: "--font-archivo",
   display: "swap",
-  weight: ["300", "400", "500"],
-});
-
-const fraunces = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-fraunces",
-  display: "swap",
-  weight: ["300", "400", "500", "600"],
-  style: ["normal", "italic"],
-});
-
-const jetbrains = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-jetbrains",
-  display: "swap",
-  weight: ["400", "500"],
-});
-
-const kanit = Kanit({
-  subsets: ["latin"],
-  variable: "--font-kanit",
-  display: "swap",
-  weight: ["300", "400", "500", "600", "700", "800", "900"],
+  weight: ["300", "400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -48,11 +26,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${inter.variable} ${fraunces.variable} ${jetbrains.variable} ${kanit.variable} h-full antialiased`}
-    >
-      <body className={`${kanit.className} min-h-full flex flex-col font-light`}>
+    <html lang="en" className={`${archivo.variable} h-full antialiased`}>
+      <body className={`${archivo.className} flex min-h-full flex-col font-light`}>
         {children}
       </body>
     </html>

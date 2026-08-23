@@ -60,7 +60,7 @@
 }
 
 .admin-login-kicker {
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-family: ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -69,7 +69,7 @@
 }
 
 .admin-login-title {
-  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-family: var(--font-archivo), ui-sans-serif, sans-serif;
   font-size: clamp(28px, 5vw, 36px);
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -112,7 +112,7 @@
 
 .admin-login-form label {
   display: block;
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-family: ui-monospace, monospace;
   font-size: 10px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -134,7 +134,7 @@
   border-radius: 8px;
   outline: none;
   transition: border-color 0.2s, box-shadow 0.2s;
-  font-family: var(--font-inter), ui-sans-serif, sans-serif;
+  font-family: var(--font-archivo), ui-sans-serif, sans-serif;
   font-weight: 300;
 }
 
@@ -164,7 +164,7 @@
   top: 50%;
   transform: translateY(-50%);
   max-width: calc(100% - 12px);
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-family: ui-monospace, monospace;
   font-size: 10px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -201,7 +201,7 @@
   border-radius: 8px;
   background: var(--accent);
   color: var(--bg);
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-family: ui-monospace, monospace;
   font-size: 12px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
@@ -234,7 +234,7 @@
 }
 
 .admin-login-back a {
-  font-family: var(--font-jetbrains), ui-monospace, monospace;
+  font-family: ui-monospace, monospace;
   font-size: 11px;
   letter-spacing: 0.06em;
   text-transform: uppercase;
