@@ -92,7 +92,7 @@ export default function TestimonialsGrid({ items }: TestimonialsGridProps) {
         </SectionReveal>
 
         <motion.div
-          className={`mt-12 grid gap-6 ${gridClass}`}
+          className={`mt-12 grid gap-4 ${gridClass}`}
           variants={gridVariants}
           initial="hidden"
           whileInView="show"

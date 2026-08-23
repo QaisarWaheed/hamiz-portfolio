@@ -14,7 +14,7 @@ export default function FooterSection() {
         <div className="grid gap-[50px] min-[810px]:grid-cols-[1.2fr_1fr_1fr]">
           <div>
             <h2
-              className="text-[52px] font-bold leading-[0.95] tracking-[-0.08em] min-[810px]:text-[62px]"
+              className="text-[52px] font-semibold leading-[0.95] tracking-[-0.08em] min-[810px]:text-[62px]"
               style={{ letterSpacing: "-0.08em" }}
             >
               {FOOTER_HEADLINE_LINES.map((line) => (
@@ -53,9 +53,9 @@ export default function FooterSection() {
         </div>
 
         <p
-          className="mt-20 select-none font-bold uppercase leading-[0.65] text-[#242424] min-[810px]:mt-[110px] min-[810px]:-mb-2"
+          className="pointer-events-none mt-20 select-none font-bold uppercase leading-[0.65] text-[#242424] min-[810px]:mt-[110px] min-[810px]:-mb-[440px]"
           style={{
-            fontSize: "clamp(160px, 27vw, 380px)",
+            fontSize: "27vw",
             letterSpacing: "-0.11em",
           }}
         >

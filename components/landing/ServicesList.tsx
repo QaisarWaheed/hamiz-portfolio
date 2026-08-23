@@ -19,6 +19,26 @@ const rowVariants = {
   },
 };
 
+function ServiceTags({ detail }: { detail: string }) {
+  const tags = detail
+    .split("·")
+    .map((tag) => tag.trim())
+    .filter(Boolean);
+
+  if (tags.length === 0) return null;
+
+  return (
+    <span className="mt-3 flex flex-wrap justify-end gap-x-2 text-[18px] font-normal text-muted max-[809px]:mt-3 min-[810px]:mt-0 min-[810px]:max-w-[45%]">
+      {tags.map((tag, index) => (
+        <span key={`${tag}-${index}`} className="whitespace-nowrap">
+          {index > 0 ? <span className="mr-2 text-muted/70">·</span> : null}
+          {tag}
+        </span>
+      ))}
+    </span>
+  );
+}
+
 type ServicesListProps = {
   services: readonly LandingServiceDisplay[];
 };
@@ -38,15 +58,10 @@ export default function ServicesList({ services }: ServicesListProps) {
           variants={rowVariants}
           className="group border-b border-line py-[30px] transition-colors hover:border-ink/30 max-[809px]:block min-[810px]:flex min-[810px]:items-center min-[810px]:justify-between"
         >
-          <span
-            className="block text-[28px] font-bold tracking-[-0.05em] text-ink transition-transform duration-300 group-hover:translate-x-1"
-            style={{ letterSpacing: "-0.05em" }}
-          >
+          <span className="block text-[28px] font-medium tracking-[-0.05em] text-ink transition-transform duration-300 group-hover:translate-x-1 min-[810px]:text-[32px]">
             {service.label}
           </span>
-          <span className="mt-3 block text-[18px] text-muted max-[809px]:mt-3 min-[810px]:mt-0 min-[810px]:max-w-[45%] min-[810px]:text-right">
-            {service.detail}
-          </span>
+          <ServiceTags detail={service.detail} />
         </motion.li>
       ))}
     </motion.ul>

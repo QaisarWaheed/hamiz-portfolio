@@ -31,7 +31,7 @@ function ProjectThumbnail({ src, title }: { src: string; title: string }) {
 
   if (!thumb || broken) {
     return (
-      <div className="flex aspect-[16/10] w-full items-center justify-center bg-line text-sm text-muted">
+      <div className="flex aspect-[1.45/1] w-full items-center justify-center rounded-[20px] bg-line text-sm text-muted">
         No preview
       </div>
     );
@@ -41,9 +41,9 @@ function ProjectThumbnail({ src, title }: { src: string; title: string }) {
     <Image
       src={thumb}
       alt={title}
-      width={1600}
+      width={1450}
       height={1000}
-      className="aspect-[16/10] w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+      className="aspect-[1.45/1] w-full rounded-[20px] object-cover transition-transform duration-500 group-hover:scale-[1.02]"
       onError={() => setBroken(true)}
       sizes="(min-width: 640px) 50vw, 100vw"
     />
@@ -68,7 +68,7 @@ export default function ProjectsGridClient({
     <>
       {/* Projects: fixed 2 columns from sm+ (1 on mobile). Odd counts may leave a half-row — intentional. */}
       <motion.div
-        className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2"
+        className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2"
         variants={gridVariants}
         initial="hidden"
         whileInView="show"
@@ -83,11 +83,11 @@ export default function ProjectsGridClient({
                 onClick={() => setModal(project)}
                 className="group w-full text-left"
               >
-                <div className="overflow-hidden border border-line bg-line">
+                <div className="overflow-hidden rounded-[20px] border border-line bg-line">
                   <ProjectThumbnail src={thumb} title={project.title} />
                 </div>
                 <div className="mt-4 flex items-start justify-between gap-4 border-b border-line pb-4">
-                  <h3 className="text-lg font-medium text-ink transition-colors group-hover:underline">
+                  <h3 className="text-[32px] font-medium leading-tight tracking-[-0.02em] text-ink transition-colors group-hover:underline">
                     {project.title}
                   </h3>
                   <span className="shrink-0 text-sm text-muted">{project.category}</span>
