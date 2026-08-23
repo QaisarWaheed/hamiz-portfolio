@@ -35,7 +35,7 @@ export type LandingServiceDisplay = {
   detail: string;
 };
 
-/** MongoDB seed rows — mirrors fallbackLandingServices for admin. */
+/** MongoDB seed rows — derived from landing-content SERVICES (label + tags), not demo-content. */
 export const defaultServices: Omit<ServiceRow, "_id">[] = fallbackLandingServices.map(
   (service, order) => ({
     order,
