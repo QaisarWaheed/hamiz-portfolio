@@ -2,9 +2,15 @@
 
 export const CLIENT_NAME = "Hamiz Khan";
 
-export const PORTRAIT_URL = "/portrait.placeholder.png";
+export const PORTRAIT_URL = "/hamiz.jpeg";
 /** Source dimensions for client portrait asset (3:4). */
 export const PORTRAIT_ASPECT = "3 / 4" as const;
+export const PORTRAIT_WIDTH = 1086;
+export const PORTRAIT_HEIGHT = 1448;
+
+/** Descriptive alt for hero portrait (LCP). */
+export const PORTRAIT_ALT =
+  "Hamiz Khan, video editor, portrait in a documentary-style frame";
 
 export const HERO_SPARK_STAR = "/hero-spark-star.avif";
 export const HERO_SPARK_BOLT = "/hero-spark-bolt.avif";

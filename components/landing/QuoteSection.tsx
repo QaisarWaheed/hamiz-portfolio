@@ -53,10 +53,10 @@ export default function QuoteSection() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-[150vh] items-center justify-center border-b border-line py-24"
+      className="relative flex min-h-[150vh] items-start justify-center border-b border-line pt-[40.5vh]"
     >
       <div className="section-container">
-        <p className="w-full text-center text-[24px] font-medium leading-[1.2] tracking-[-0.02em] text-ink min-[810px]:text-[36px]">
+        <p className="mx-auto w-full max-w-[840px] text-center text-[24px] font-medium leading-[1.2] tracking-[-0.02em] text-ink min-[810px]:text-[36px]">
           {words.map((word, index) => (
             <span key={`${word}-${index}`}>
               <QuoteWord
@@ -66,7 +66,7 @@ export default function QuoteSection() {
                 scrollYProgress={scrollYProgress}
                 reducedMotion={Boolean(reducedMotion)}
               />
-              {index < words.length - 1 ? "\u00A0" : null}
+              {index < words.length - 1 ? " " : null}
             </span>
           ))}
         </p>

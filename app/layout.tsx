@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo } from "next/font/google";
+import { PORTRAIT_URL } from "@/components/landing/landing-content";
 import "./globals.css";
 
 const archivo = Archivo({
@@ -27,6 +28,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${archivo.variable} h-full antialiased`}>
+      <head>
+        <link rel="preload" as="image" href={PORTRAIT_URL} fetchPriority="high" />
+      </head>
       <body className={`${archivo.className} flex min-h-full flex-col font-light`}>
         {children}
       </body>

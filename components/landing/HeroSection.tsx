@@ -1,13 +1,15 @@
 "use client";
 
 import {
-  CLIENT_NAME,
   HERO_COPYRIGHT,
   HERO_CREDIT_LINE,
   HERO_HEADLINE_LINES,
   HERO_SPARK_BOLT,
   HERO_SPARK_STAR,
+  PORTRAIT_ALT,
+  PORTRAIT_HEIGHT,
   PORTRAIT_URL,
+  PORTRAIT_WIDTH,
 } from "@/components/landing/landing-content";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
@@ -143,9 +145,11 @@ export default function HeroSection() {
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
                   src={PORTRAIT_URL}
-                  alt={CLIENT_NAME}
-                  width={800}
-                  height={1072}
+                  alt={PORTRAIT_ALT}
+                  width={PORTRAIT_WIDTH}
+                  height={PORTRAIT_HEIGHT}
+                  fetchPriority="high"
+                  decoding="sync"
                   className="h-full w-full object-cover object-top"
                   draggable={false}
                 />
