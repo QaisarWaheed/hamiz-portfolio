@@ -33,6 +33,13 @@ export const FOOTER_HEADLINE_LINES = [
 
 export const CONTACT_EMAIL = "hello@hamizkhan.com";
 
+export const SOCIAL_LINKS = [
+  { href: "https://x.com/", label: "X" },
+  { href: "https://www.instagram.com/", label: "Instagram" },
+  { href: "https://www.linkedin.com/", label: "LinkedIn" },
+  { href: "https://www.youtube.com/", label: "YouTube" },
+] as const;
+
 export const NAV_LINKS = [
   { href: "#hero-section", label: "Home" },
   { href: "#bio-section", label: "About Me" },
