@@ -122,7 +122,7 @@ export default function HeroSection() {
           {/* 1. Headline — shared size, ragged line widths */}
           <h1
             ref={headlineRef}
-            className="absolute inset-x-[50px] top-1/2 z-20 -translate-y-1/2 text-center text-[clamp(80px,13.6vw,174px)] font-extrabold leading-[0.9] tracking-[-0.02em] text-ink max-[809px]:inset-x-5"
+            className="absolute inset-x-[50px] top-1/2 z-20 -translate-y-1/2 text-center font-extrabold leading-[0.9] tracking-[-0.02em] text-ink max-[809px]:inset-x-5 max-[809px]:text-[clamp(57px,15.2vw,100px)] min-[810px]:text-[clamp(80px,13.6vw,174px)]"
           >
             <span className="block whitespace-nowrap">{HERO_HEADLINE_LINES[0]}</span>
             <span ref={line2Ref} className="block whitespace-nowrap">
