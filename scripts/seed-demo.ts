@@ -12,6 +12,17 @@ import Testimonial from "../models/Testimonial";
 config({ path: path.resolve(process.cwd(), ".env.local") });
 config({ path: path.resolve(process.cwd(), ".env") });
 
+function refuseUnlessDemoMode(): void {
+  if (process.env.SHOW_DEMO_CONTENT !== "true") {
+    console.error(
+      'Refusing to run seed:demo: SHOW_DEMO_CONTENT is not "true".\n' +
+        "This script inserts demo projects and testimonials and must not run against production.\n" +
+        'Set SHOW_DEMO_CONTENT=true in .env.local only when intentionally seeding a dev database.'
+    );
+    process.exit(1);
+  }
+}
+
 function omitMeta<T extends Record<string, unknown>>(row: T) {
   const { _id, createdAt, updatedAt, ...rest } = row as T & {
     _id?: unknown;
@@ -22,6 +33,7 @@ function omitMeta<T extends Record<string, unknown>>(row: T) {
 }
 
 async function seed() {
+  refuseUnlessDemoMode();
   const uri = process.env.MONGODB_URI;
   if (!uri) {
     console.error("MONGODB_URI is not set. Add it to .env.local first.");
