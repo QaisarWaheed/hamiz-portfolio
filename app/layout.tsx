@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { Fraunces, Inter, JetBrains_Mono, Kanit } from "next/font/google";
 import "./globals.css";
-import "./editorial.css";
 
 const inter = Inter({
   subsets: ["latin"],
