@@ -27,9 +27,7 @@ html {
 }
 
 body {
-  font-family: var(--font-kanit), sans-serif;
-  background: #0c0c0c;
-  color: #d7e2ea;
+  font-family: var(--font-archivo), sans-serif;
 }
 
 ::selection {

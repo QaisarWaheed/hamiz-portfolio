@@ -9,7 +9,7 @@ import NewServices from "@/components/landing/NewServices";
 
 export default function HomePage() {
   return (
-    <main style={{ overflowX: "clip", background: "#0C0C0C" }}>
+    <main className="min-h-screen overflow-x-clip bg-paper text-ink">
       <NewHero />
       <NewMarquee />
       <NewAbout />
