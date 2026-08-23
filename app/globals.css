@@ -48,20 +48,20 @@ body {
     @apply text-[46px] font-semibold leading-none tracking-[-0.02em];
   }
 
-  /* Visual inter-section gaps (1280): services→projects ~151px, projects→testimonials ~110px */
+  /* Visual inter-section gaps tuned to measured reference targets */
   .section-padding {
-    @apply py-12 min-[810px]:py-[52px];
+    @apply pt-12 pb-20 min-[810px]:pt-[69px] min-[810px]:pb-[69px];
   }
 
   .section-padding-tight-bottom {
-    @apply pt-12 pb-8 min-[810px]:pt-[52px] min-[810px]:pb-[38px];
+    @apply pt-20 pb-8 min-[810px]:pt-[69px] min-[810px]:pb-[52px];
   }
 
   .section-padding-tight-top {
-    @apply pt-8 pb-12 min-[810px]:pt-[38px] min-[810px]:pb-[52px];
+    @apply pt-8 pb-20 min-[810px]:pt-[52px] min-[810px]:pb-[69px];
   }
 
   .contact-section-padding {
-    @apply py-12 pb-20 min-[810px]:py-[52px] min-[810px]:pb-[116px];
+    @apply pt-12 pb-24 min-[810px]:pt-[52px] min-[810px]:pb-[158px];
   }
 }
