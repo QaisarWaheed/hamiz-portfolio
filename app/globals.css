@@ -61,6 +61,11 @@ body {
     @apply pt-8 pb-6 min-[810px]:pt-[52px] min-[810px]:pb-[69px];
   }
 
+  /** Services follows quote — reference has ~0 top padding, not full section-padding. */
+  .section-padding-after-quote {
+    @apply pt-[10px] pb-20 min-[810px]:pb-[69px];
+  }
+
   .contact-section-padding {
     @apply pt-12 pb-24 min-[810px]:pt-[52px] min-[810px]:pb-[158px];
   }

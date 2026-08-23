@@ -149,7 +149,7 @@ export default function HeroSection() {
                   width={PORTRAIT_WIDTH}
                   height={PORTRAIT_HEIGHT}
                   fetchPriority="high"
-                  decoding="sync"
+                  decoding="async"
                   className="h-full w-full object-cover object-top"
                   draggable={false}
                 />

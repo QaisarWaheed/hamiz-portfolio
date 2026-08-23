@@ -11,7 +11,7 @@ export default async function ServicesSection() {
 
   return (
     <section id="services" className="border-b border-line">
-      <div className="section-container section-padding">
+      <div className="section-container section-padding-after-quote">
         <SectionReveal>
           <h2 className="section-heading text-ink">What I edit</h2>
         </SectionReveal>
