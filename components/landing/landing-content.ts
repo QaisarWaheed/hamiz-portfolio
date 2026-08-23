@@ -6,8 +6,8 @@ export const PORTRAIT_URL = "/portrait.placeholder.png";
 /** Source dimensions for client portrait asset (3:4). */
 export const PORTRAIT_ASPECT = "3 / 4" as const;
 
-export const HERO_SPARK_ONE = "/hero-spark-1.placeholder.png";
-export const HERO_SPARK_TWO = "/hero-spark-2.placeholder.png";
+export const HERO_SPARK_STAR = "/hero-spark-star.avif";
+export const HERO_SPARK_BOLT = "/hero-spark-bolt.avif";
 
 export const HERO_EYEBROW = "Video editor";
 
