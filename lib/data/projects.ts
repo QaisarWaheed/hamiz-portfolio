@@ -5,7 +5,8 @@ import { PROJECTS_DISPLAY_LIMIT } from "@/lib/projects-display";
 import Project from "@/models/Project";
 import { serializeId } from "./serialize";
 
-const SORT = { updatedAt: -1 as const, createdAt: -1 as const };
+// TODO: add manual `order` field (like Service) so the client can pin homepage project sequence.
+const SORT = { createdAt: -1 as const };
 
 export { PROJECTS_DISPLAY_LIMIT };
 

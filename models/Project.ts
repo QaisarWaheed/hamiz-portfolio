@@ -2,6 +2,7 @@ import mongoose, { Schema, type Model, type InferSchemaType } from "mongoose";
 
 const projectSchema = new Schema(
   {
+    // TODO: add `order: Number` for manual homepage sequencing (see Service model).
     title: { type: String, required: true },
     description: { type: String, default: "" },
     /** How the video is stored: external link vs file hosted on Cloudinary. */
