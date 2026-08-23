@@ -14,11 +14,15 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-archivo), ui-sans-serif, system-ui, sans-serif;
+  --color-paper: #f4f1eb;
+  --color-ink: #121212;
+  --color-line: #d9d6cf;
+  --color-dark: #151515;
+  --color-muted: #6e6d6a;
   --color-canvas: var(--bg);
   --color-accent: var(--accent);
   --color-main: var(--ink);
-  --color-muted: var(--ink-dim);
   --shadow-glow: 0 0 40px -12px rgba(217, 122, 44, 0.35);
 }
 
@@ -31,56 +35,6 @@ body {
 }
 
 ::selection {
-  background-color: color-mix(in srgb, var(--accent) 35%, transparent);
-  color: var(--ink);
-}
-
-@keyframes marquee {
-  from {
-    transform: translateX(0);
-  }
-  to {
-    transform: translateX(-50%);
-  }
-}
-
-@keyframes float-card {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-  50% {
-    transform: translate3d(0, -7px, 0);
-  }
-}
-
-.animate-marquee {
-  animation: marquee 52s linear infinite;
-}
-
-.animate-marquee-reverse {
-  animation: marquee 58s linear infinite reverse;
-}
-
-.animate-float-card {
-  animation: float-card 5.5s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .animate-marquee,
-  .animate-marquee-reverse {
-    animation: none;
-    transform: none;
-  }
-
-  .animate-float-card {
-    animation: none;
-  }
-}
-
-.hero-heading {
-  background: linear-gradient(180deg, #646973 0%, #bbccd7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background-color: color-mix(in srgb, var(--color-ink) 12%, transparent);
+  color: var(--color-ink);
 }
