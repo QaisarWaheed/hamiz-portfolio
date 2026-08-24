@@ -90,6 +90,6 @@ body {
 }
 
 .contact-field-wrap:has(:focus-visible) {
-  border-color: rgba(244, 241, 235, 0.32);
-  background-color: rgba(244, 241, 235, 0.07);
+  border-color: rgba(244, 241, 235, 0.45);
+  background-color: rgba(244, 241, 235, 0.1);
 }
