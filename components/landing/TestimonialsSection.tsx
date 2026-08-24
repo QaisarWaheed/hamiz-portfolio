@@ -1,8 +1,8 @@
 import TestimonialsGrid from "@/components/landing/TestimonialsGrid";
-import { listTestimonials } from "@/lib/data/testimonials";
+import { getTestimonialsForLanding } from "@/lib/data/testimonials";
 
 export default async function TestimonialsSection() {
-  const items = await listTestimonials();
+  const items = await getTestimonialsForLanding();
 
   if (items.length === 0) {
     return null;

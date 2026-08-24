@@ -16,6 +16,19 @@ function toTestimonialItem(raw: Record<string, unknown>): TestimonialItem {
   };
 }
 
+/** Homepage / public landing — never serves demo content. */
+export async function getTestimonialsForLanding(): Promise<TestimonialItem[]> {
+  try {
+    await connectDB();
+    const docs = await Testimonial.find().sort({ createdAt: -1 }).lean();
+    return docs.map((d) => toTestimonialItem(d as Record<string, unknown>));
+  } catch (e) {
+    console.error("[data/testimonials] getTestimonialsForLanding failed:", e);
+    return [];
+  }
+}
+
+/** Admin / API — may fall back to demo when empty or on error (dev / SHOW_DEMO_CONTENT). */
 export async function listTestimonials(): Promise<TestimonialItem[]> {
   const fallback = useDemoContentFallback();
 
