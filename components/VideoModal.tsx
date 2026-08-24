@@ -1,6 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
+import { parseModalVideo } from "@/lib/service-video";
 import { useEffect, useMemo } from "react";
 
 export type VideoModalProps = {
@@ -12,27 +13,6 @@ export type VideoModalProps = {
   category?: string;
 };
 
-function youtubeEmbed(url: string): string | null {
-  try {
-    const u = new URL(url);
-    if (u.hostname === "youtu.be") {
-      const id = u.pathname.replace("/", "");
-      return id ? `https://www.youtube.com/embed/${id}?autoplay=1` : null;
-    }
-    if (u.hostname.includes("youtube.com")) {
-      const v = u.searchParams.get("v");
-      if (v) return `https://www.youtube.com/embed/${v}?autoplay=1`;
-      const parts = u.pathname.split("/").filter(Boolean);
-      if (parts[0] === "embed" && parts[1]) {
-        return `https://www.youtube.com/embed/${parts[1]}?autoplay=1`;
-      }
-    }
-  } catch {
-    return null;
-  }
-  return null;
-}
-
 export default function VideoModal({
   open,
   onClose,
@@ -41,11 +21,7 @@ export default function VideoModal({
   description = "",
   category = "",
 }: VideoModalProps) {
-  const embed = useMemo(() => youtubeEmbed(videoUrl), [videoUrl]);
-  const isDirect =
-    !embed &&
-    (/\.(mp4|webm|ogg|mov)(\?|$)/i.test(videoUrl) ||
-      /res\.cloudinary\.com\/.+\/video\/upload\//i.test(videoUrl));
+  const parsed = useMemo(() => parseModalVideo(videoUrl), [videoUrl]);
 
   useEffect(() => {
     if (!open) return;
@@ -96,18 +72,18 @@ export default function VideoModal({
               </button>
             </div>
             <div className="relative aspect-video bg-black">
-              {embed ? (
+              {parsed?.kind === "iframe" ? (
                 <iframe
                   title={title}
-                  src={embed}
+                  src={parsed.src}
                   className="h-full w-full"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                 />
-              ) : isDirect ? (
+              ) : parsed?.kind === "video" ? (
                 <video
                   className="h-full w-full"
-                  src={videoUrl}
+                  src={parsed.src}
                   controls
                   autoPlay
                   playsInline

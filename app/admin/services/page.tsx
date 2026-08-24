@@ -1,8 +1,15 @@
 "use client";
 
 import AdminShell from "@/components/AdminShell";
+import {
+  formatBytes,
+  startVideoUploadDirectToCloudinary,
+  VideoUploadAbortedError,
+  type DirectVideoUploadHandle,
+  type VideoUploadProgress,
+} from "@/lib/direct-video-upload";
 import type { ServiceRow } from "@/lib/landing-types";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 function normalizeRow(r: ServiceRow): ServiceRow {
   const src = r.videoSource === "link" || r.videoSource === "upload" ? r.videoSource : "none";
@@ -18,6 +25,8 @@ export default function AdminServicesPage() {
   const [loading, setLoading] = useState(true);
   const [msg, setMsg] = useState<string | null>(null);
   const [uploadIdx, setUploadIdx] = useState<number | null>(null);
+  const [uploadProgress, setUploadProgress] = useState<VideoUploadProgress | null>(null);
+  const videoUploadRef = useRef<DirectVideoUploadHandle | null>(null);
 
   const load = useCallback(async () => {
     setLoading(true);
@@ -33,6 +42,13 @@ export default function AdminServicesPage() {
   useEffect(() => {
     void load();
   }, [load]);
+
+  useEffect(() => {
+    return () => {
+      videoUploadRef.current?.abort();
+      videoUploadRef.current = null;
+    };
+  }, []);
 
   async function save() {
     setMsg(null);
@@ -67,25 +83,31 @@ export default function AdminServicesPage() {
 
   async function onVideoFile(i: number, file: File | null) {
     if (!file) return;
+    videoUploadRef.current?.abort();
     setUploadIdx(i);
+    setUploadProgress({ percent: 0, loaded: 0, total: file.size });
     setMsg(null);
+    const handle = startVideoUploadDirectToCloudinary(file, "service", setUploadProgress);
+    videoUploadRef.current = handle;
     try {
-      const fd = new FormData();
-      fd.append("file", file);
-      fd.append("kind", "video");
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
-      if (!res.ok) {
-        const err = (await res.json()) as { error?: string };
-        throw new Error(err.error ?? "Upload failed");
-      }
-      const { url } = (await res.json()) as { url: string };
+      const url = await handle.promise;
       update(i, { videoSource: "upload", videoUrl: url });
       setMsg("Video uploaded — click Save all services to publish.");
     } catch (e) {
-      setMsg(e instanceof Error ? e.message : "Upload failed");
+      if (e instanceof VideoUploadAbortedError) {
+        setMsg("Upload cancelled.");
+      } else {
+        setMsg(e instanceof Error ? e.message : "Upload failed");
+      }
     } finally {
+      if (videoUploadRef.current === handle) videoUploadRef.current = null;
       setUploadIdx(null);
+      setUploadProgress(null);
     }
+  }
+
+  function cancelVideoUpload() {
+    videoUploadRef.current?.abort();
   }
 
   return (
@@ -169,6 +191,36 @@ export default function AdminServicesPage() {
                         }}
                         className="w-full text-sm text-main file:mr-3 file:rounded-lg file:border-0 file:bg-accent file:px-3 file:py-1.5 file:text-xs file:font-medium file:text-white"
                       />
+                      {uploadIdx === i && uploadProgress != null ? (
+                        <div className="space-y-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <p className="text-xs text-muted">
+                              Uploading… {uploadProgress.percent}% (
+                              {formatBytes(uploadProgress.loaded)} /{" "}
+                              {formatBytes(uploadProgress.total)})
+                            </p>
+                            <button
+                              type="button"
+                              onClick={cancelVideoUpload}
+                              className="rounded-lg border border-white/15 px-2 py-0.5 text-xs text-muted hover:border-red-400/40 hover:text-red-300"
+                            >
+                              Cancel
+                            </button>
+                          </div>
+                          <div
+                            className="h-1.5 w-full overflow-hidden rounded-full bg-white/10"
+                            role="progressbar"
+                            aria-valuenow={uploadProgress.percent}
+                            aria-valuemin={0}
+                            aria-valuemax={100}
+                          >
+                            <div
+                              className="h-full rounded-full bg-accent transition-[width] duration-150"
+                              style={{ width: `${uploadProgress.percent}%` }}
+                            />
+                          </div>
+                        </div>
+                      ) : null}
                       {r.videoUrl ? (
                         <p className="break-all text-xs text-muted">Stored: {r.videoUrl}</p>
                       ) : null}

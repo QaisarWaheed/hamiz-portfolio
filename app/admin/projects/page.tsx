@@ -1,8 +1,15 @@
 "use client";
 
 import AdminShell from "@/components/AdminShell";
+import {
+  formatBytes,
+  startVideoUploadDirectToCloudinary,
+  VideoUploadAbortedError,
+  type DirectVideoUploadHandle,
+  type VideoUploadProgress,
+} from "@/lib/direct-video-upload";
 import type { ProjectItem, ProjectVideoSource } from "@/lib/landing-types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type ProjectThumbnailSource = "url" | "cloudinary";
 
@@ -23,7 +30,9 @@ export default function AdminProjectsPage() {
   const [editingId, setEditingId] = useState<string | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadingVideo, setUploadingVideo] = useState(false);
+  const [videoProgress, setVideoProgress] = useState<VideoUploadProgress | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
+  const videoUploadRef = useRef<DirectVideoUploadHandle | null>(null);
 
   async function load() {
     setLoading(true);
@@ -38,6 +47,13 @@ export default function AdminProjectsPage() {
 
   useEffect(() => {
     void load();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      videoUploadRef.current?.abort();
+      videoUploadRef.current = null;
+    };
   }, []);
 
   async function uploadThumb(file: File) {
@@ -59,23 +75,31 @@ export default function AdminProjectsPage() {
   }
 
   async function uploadProjectVideo(file: File) {
+    videoUploadRef.current?.abort();
     setUploadingVideo(true);
+    setVideoProgress({ percent: 0, loaded: 0, total: file.size });
     setMsg(null);
+    const handle = startVideoUploadDirectToCloudinary(file, "project", setVideoProgress);
+    videoUploadRef.current = handle;
     try {
-      const fd = new FormData();
-      fd.set("file", file);
-      fd.set("kind", "video");
-      fd.set("scope", "project");
-      const res = await fetch("/api/upload", { method: "POST", body: fd });
-      const j = (await res.json()) as { url?: string; error?: string };
-      if (!res.ok) throw new Error(j.error ?? "Upload failed");
-      if (j.url) setForm((f) => ({ ...f, videoSource: "cloudinary", videoUrl: j.url! }));
+      const url = await handle.promise;
+      setForm((f) => ({ ...f, videoSource: "cloudinary", videoUrl: url }));
       setMsg("Video uploaded to Cloudinary");
     } catch (e) {
-      setMsg(e instanceof Error ? e.message : "Upload failed");
+      if (e instanceof VideoUploadAbortedError) {
+        setMsg("Upload cancelled.");
+      } else {
+        setMsg(e instanceof Error ? e.message : "Upload failed");
+      }
     } finally {
+      if (videoUploadRef.current === handle) videoUploadRef.current = null;
       setUploadingVideo(false);
+      setVideoProgress(null);
     }
+  }
+
+  function cancelVideoUpload() {
+    videoUploadRef.current?.abort();
   }
 
   async function save(e: React.FormEvent) {
@@ -142,7 +166,8 @@ export default function AdminProjectsPage() {
         <div>
           <h1 className="text-2xl font-semibold text-main">Projects</h1>
           <p className="mt-1 text-sm text-muted">
-            CRUD wired to MongoDB. Thumbnails and optional portfolio videos can be uploaded to Cloudinary.
+            CRUD wired to MongoDB. Thumbnails and optional portfolio videos can be uploaded to
+            Cloudinary.
           </p>
         </div>
 
@@ -215,13 +240,14 @@ export default function AdminProjectsPage() {
             </div>
           ) : (
             <div className="md:col-span-2">
-              <label className="text-xs text-muted">Video file</label>
+              <label className="text-xs text-muted">Video file (max 100 MB / 104857600 bytes)</label>
               <div className="mt-1 flex flex-wrap items-center gap-3">
                 <label className="text-xs text-accent underline-offset-4 hover:underline">
                   <input
                     type="file"
                     accept="video/*"
                     className="hidden"
+                    disabled={uploadingVideo}
                     onChange={(ev) => {
                       const f = ev.target.files?.[0];
                       if (f) void uploadProjectVideo(f);
@@ -230,12 +256,44 @@ export default function AdminProjectsPage() {
                   />
                   Upload to Cloudinary
                 </label>
-                {uploadingVideo ? <span className="text-xs text-muted">Uploading…</span> : null}
+                {uploadingVideo ? (
+                  <>
+                    <span className="text-xs text-muted">
+                      Uploading… {videoProgress?.percent ?? 0}%
+                      {videoProgress
+                        ? ` (${formatBytes(videoProgress.loaded)} / ${formatBytes(videoProgress.total)})`
+                        : ""}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={cancelVideoUpload}
+                      className="rounded-lg border border-white/15 px-2 py-0.5 text-xs text-muted hover:border-red-400/40 hover:text-red-300"
+                    >
+                      Cancel
+                    </button>
+                  </>
+                ) : null}
               </div>
+              {uploadingVideo && videoProgress != null ? (
+                <div
+                  className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/10"
+                  role="progressbar"
+                  aria-valuenow={videoProgress.percent}
+                  aria-valuemin={0}
+                  aria-valuemax={100}
+                >
+                  <div
+                    className="h-full rounded-full bg-accent transition-[width] duration-150"
+                    style={{ width: `${videoProgress.percent}%` }}
+                  />
+                </div>
+              ) : null}
               {form.videoUrl ? (
                 <p className="mt-2 break-all text-xs text-muted">Stored: {form.videoUrl}</p>
               ) : (
-                <p className="mt-2 text-xs text-muted">Upload a file to set the video URL (required before save).</p>
+                <p className="mt-2 text-xs text-muted">
+                  Upload a file to set the video URL (required before save).
+                </p>
               )}
             </div>
           )}
@@ -286,7 +344,9 @@ export default function AdminProjectsPage() {
                 {form.thumbnail ? (
                   <p className="mt-2 break-all text-xs text-muted">Stored: {form.thumbnail}</p>
                 ) : (
-                  <p className="mt-2 text-xs text-muted">Upload an image to set thumbnail URL (required before save).</p>
+                  <p className="mt-2 text-xs text-muted">
+                    Upload an image to set thumbnail URL (required before save).
+                  </p>
                 )}
               </div>
             )}

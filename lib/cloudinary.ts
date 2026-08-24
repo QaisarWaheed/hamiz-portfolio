@@ -64,9 +64,45 @@ export async function uploadThumbnailBuffer(
   });
 }
 
+/** Cloudinary Free plan max single video (bytes). */
+export const CLOUDINARY_FREE_VIDEO_MAX_BYTES = 104_857_600;
+
+export const PROJECT_VIDEO_FOLDER = "hamiz-portfolio/project-videos";
+export const SERVICE_VIDEO_FOLDER = "hamiz-portfolio/service-videos";
+
+/**
+ * Signed params for browser → Cloudinary direct video upload.
+ * Does not include the file; resource_type is chosen via the upload URL path.
+ */
+export function createVideoUploadSignature(folder: string): {
+  cloudName: string;
+  apiKey: string;
+  timestamp: number;
+  signature: string;
+  folder: string;
+  resource_type: "video";
+  uploadUrl: string;
+} {
+  const c = configureCloudinary();
+  const cloudName = process.env.CLOUDINARY_CLOUD_NAME!.trim();
+  const apiKey = process.env.CLOUDINARY_API_KEY!.trim();
+  const timestamp = Math.round(Date.now() / 1000);
+  const signature = c.utils.api_sign_request({ timestamp, folder }, process.env.CLOUDINARY_API_SECRET!.trim());
+  return {
+    cloudName,
+    apiKey,
+    timestamp,
+    signature,
+    folder,
+    resource_type: "video",
+    uploadUrl: `https://api.cloudinary.com/v1_1/${cloudName}/video/upload`,
+  };
+}
+
+/** @deprecated Prefer signed direct-to-Cloudinary uploads (see /api/upload/video-sign). */
 export async function uploadVideoBuffer(
   buffer: Buffer,
-  folder = "hamiz-portfolio/service-videos"
+  folder = SERVICE_VIDEO_FOLDER
 ): Promise<{ secure_url: string }> {
   const c = configureCloudinary();
   return new Promise((resolve, reject) => {
