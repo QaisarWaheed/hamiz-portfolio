@@ -6,15 +6,13 @@ import { APPEAR_STAGGER } from "@/lib/appear-motion";
 import { useEffect, useRef, useState } from "react";
 
 /** Ref: wrap radius 12 + horizontal pad 12; input border 0 / radius 0.
- *  Focus: quiet paper border on wrap via :has(:focus-visible) (a11y; ref has none). */
-const INPUT_WRAP =
-  "flex h-11 items-center rounded-[12px] border border-transparent px-3 transition-colors has-[:focus-visible]:border-paper/25 has-[:focus-visible]:bg-paper/[0.04]";
+ *  Focus: .contact-field-wrap:has(:focus-visible) in globals.css */
+const INPUT_WRAP = "contact-field-wrap flex h-11 items-center rounded-[12px] px-3";
 const INPUT_CLASS =
   "h-full w-full border-0 bg-transparent text-base font-normal text-paper placeholder:text-paper/50 focus-visible:outline-none";
 
 /** Ref: wrap radius 12; textarea pad 12, border 0, height 140. */
-const TEXTAREA_WRAP =
-  "rounded-[12px] border border-transparent transition-colors has-[:focus-visible]:border-paper/25 has-[:focus-visible]:bg-paper/[0.04]";
+const TEXTAREA_WRAP = "contact-field-wrap rounded-[12px]";
 const TEXTAREA_CLASS =
   "h-[140px] w-full resize-y border-0 bg-transparent p-3 text-base font-normal text-paper placeholder:text-paper/50 focus-visible:outline-none";
 
