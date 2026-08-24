@@ -89,7 +89,8 @@ body {
   }
 
   .contact-field-wrap:has(:focus-visible) {
-    border-color: color-mix(in srgb, var(--color-paper) 28%, transparent);
-    background-color: color-mix(in srgb, var(--color-paper) 6%, transparent);
+    /* paper #f4f1eb — hardcoded so focus stays visible regardless of token resolution */
+    border-color: rgba(244, 241, 235, 0.32);
+    background-color: rgba(244, 241, 235, 0.07);
   }
 }
