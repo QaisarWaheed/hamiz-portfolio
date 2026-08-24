@@ -24,7 +24,8 @@ export async function POST(req: Request) {
     return NextResponse.json(createVideoUploadSignature(folder));
   } catch (e) {
     if (e instanceof Response) return e;
-    console.error(e);
-    return NextResponse.json({ error: "Could not create upload signature" }, { status: 500 });
+    console.error("video-sign failed", e);
+    const message = e instanceof Error ? e.message : "Could not create upload signature";
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
