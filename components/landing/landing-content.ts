@@ -41,18 +41,18 @@ export const SOCIAL_LINKS = [
 ] as const;
 
 export const NAV_LINKS = [
-  { href: "#hero-section", label: "Home" },
-  { href: "#bio-section", label: "About Me" },
-  { href: "#services", label: "Services" },
-  { href: "#work", label: "Works" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#hero-section", label: "Home" },
+  { href: "/#bio-section", label: "About Me" },
+  { href: "/#services", label: "Services" },
+  { href: "/work", label: "Works" },
+  { href: "/#contact", label: "Contact" },
 ] as const;
 
 export const FOOTER_QUICK_LINKS = [
-  { href: "#hero-section", label: "Home" },
-  { href: "#bio-section", label: "About Me" },
-  { href: "#services", label: "Services" },
-  { href: "#work", label: "Works" },
-  { href: "#testimonials", label: "Testimonials" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#hero-section", label: "Home" },
+  { href: "/#bio-section", label: "About Me" },
+  { href: "/#services", label: "Services" },
+  { href: "/work", label: "Works" },
+  { href: "/#testimonials", label: "Testimonials" },
+  { href: "/#contact", label: "Contact" },
 ] as const;

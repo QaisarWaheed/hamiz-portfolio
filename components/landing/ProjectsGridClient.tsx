@@ -100,7 +100,6 @@ export default function ProjectsGridClient({
 
       {showViewAll ? (
         <p className="mt-10 text-center">
-          {/* TODO: point at /work when that route exists */}
           <a
             href={WORK_INDEX_HREF}
             className="text-sm font-medium uppercase tracking-[0.16em] text-muted underline-offset-4 hover:text-ink hover:underline"

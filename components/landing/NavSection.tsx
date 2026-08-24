@@ -31,7 +31,7 @@ export default function NavSection() {
         className="fixed left-1/2 z-10 flex w-[calc(100%-48px)] max-w-[320px] -translate-x-1/2 items-center justify-between rounded-[18px] bg-[#111] px-4 py-3 text-[18px] font-bold text-white max-[809px]:top-[18px] min-[810px]:top-[30px]"
         style={{ width: "min(320px, calc(100% - 48px))" }}
       >
-        <a href="#hero-section" className="truncate">
+        <a href="/#hero-section" className="truncate">
           {CLIENT_NAME}
         </a>
         <button
