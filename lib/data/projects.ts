@@ -1,6 +1,7 @@
 import { connectDB } from "@/lib/db";
 import { demoProjects, useDemoContentFallback } from "@/lib/demo-content";
 import type { ProjectItem, ProjectsPage } from "@/lib/landing-types";
+import { resolveProjectThumbnail } from "@/lib/project-thumbnails";
 import { PROJECTS_DISPLAY_LIMIT } from "@/lib/projects-display";
 import Project from "@/models/Project";
 import { serializeId } from "./serialize";
@@ -23,12 +24,24 @@ function toProjectItem(raw: Record<string, unknown>): ProjectItem {
   };
 }
 
-function paginatedDemo(page: number, pageSize: number): ProjectsPage {
+async function withResolvedThumbnail(item: ProjectItem): Promise<ProjectItem> {
+  return {
+    ...item,
+    thumbnail: await resolveProjectThumbnail(item.thumbnail, item.videoUrl),
+  };
+}
+
+async function mapProjects(raws: Record<string, unknown>[]): Promise<ProjectItem[]> {
+  return Promise.all(raws.map((raw) => withResolvedThumbnail(toProjectItem(raw))));
+}
+
+async function paginatedDemo(page: number, pageSize: number): Promise<ProjectsPage> {
   const total = demoProjects.length;
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const safePage = Math.min(Math.max(1, page), totalPages);
   const start = (safePage - 1) * pageSize;
-  const items = demoProjects.slice(start, start + pageSize).map((p) => toProjectItem(p));
+  const slice = demoProjects.slice(start, start + pageSize);
+  const items = await Promise.all(slice.map((p) => withResolvedThumbnail(toProjectItem(p))));
   return { items, total, page: safePage, pageSize, totalPages };
 }
 
@@ -50,9 +63,11 @@ export async function listProjects(options?: {
     if (total === 0 && fallback) {
       if (wantsPage) return paginatedDemo(page, pageSize);
       if (limit !== undefined) {
-        return demoProjects.slice(0, limit).map((p) => toProjectItem(p));
+        return Promise.all(
+          demoProjects.slice(0, limit).map((p) => withResolvedThumbnail(toProjectItem(p)))
+        );
       }
-      return demoProjects.map((p) => toProjectItem(p));
+      return Promise.all(demoProjects.map((p) => withResolvedThumbnail(toProjectItem(p))));
     }
 
     if (wantsPage) {
@@ -61,7 +76,7 @@ export async function listProjects(options?: {
       const skip = (safePage - 1) * pageSize;
       const docs = await Project.find().sort(SORT).skip(skip).limit(pageSize).lean();
       return {
-        items: docs.map((d) => toProjectItem(d as Record<string, unknown>)),
+        items: await mapProjects(docs as Record<string, unknown>[]),
         total,
         page: safePage,
         pageSize,
@@ -72,12 +87,14 @@ export async function listProjects(options?: {
     const query = Project.find().sort(SORT);
     if (limit !== undefined) query.limit(limit);
     const docs = await query.lean();
-    return docs.map((d) => toProjectItem(d as Record<string, unknown>));
+    return mapProjects(docs as Record<string, unknown>[]);
   } catch (e) {
     console.error("[data/projects] listProjects failed:", e);
     if (fallback) {
       if (wantsPage) return paginatedDemo(page!, pageSize);
-      const all = demoProjects.map((p) => toProjectItem(p));
+      const all = await Promise.all(
+        demoProjects.map((p) => withResolvedThumbnail(toProjectItem(p)))
+      );
       return limit !== undefined ? all.slice(0, limit) : all;
     }
     if (wantsPage) {
@@ -99,7 +116,7 @@ export async function getProjectsForLanding(): Promise<{
     }
     const docs = await Project.find().sort(SORT).limit(PROJECTS_DISPLAY_LIMIT).lean();
     return {
-      items: docs.map((d) => toProjectItem(d as Record<string, unknown>)),
+      items: await mapProjects(docs as Record<string, unknown>[]),
       total,
     };
   } catch (e) {
@@ -112,7 +129,7 @@ export async function getAllProjectsForWorkIndex(): Promise<ProjectItem[]> {
   try {
     await connectDB();
     const docs = await Project.find().sort(SORT).lean();
-    return docs.map((d) => toProjectItem(d as Record<string, unknown>));
+    return mapProjects(docs as Record<string, unknown>[]);
   } catch (e) {
     console.error("[data/projects] getAllProjectsForWorkIndex failed:", e);
     return [];

@@ -1,8 +1,6 @@
 "use client";
 
 import VideoModal from "@/components/VideoModal";
-import SectionReveal from "@/components/landing/SectionReveal";
-import { normalizeThumbUrl } from "@/lib/project-thumbnails";
 import type { ProjectItem } from "@/lib/landing-types";
 import { WORK_INDEX_ENABLED, WORK_INDEX_HREF } from "@/lib/projects-view-all";
 import { motion } from "framer-motion";
@@ -31,7 +29,7 @@ function ProjectThumbnail({ src, title }: { src: string; title: string }) {
 
   if (!thumb || broken) {
     return (
-      <div className="flex aspect-[1.45/1] w-full items-center justify-center rounded-[20px] bg-line text-sm text-muted">
+      <div className="flex aspect-video w-full items-center justify-center rounded-[20px] bg-line text-sm text-muted">
         No preview
       </div>
     );
@@ -41,9 +39,9 @@ function ProjectThumbnail({ src, title }: { src: string; title: string }) {
     <Image
       src={thumb}
       alt={title}
-      width={1450}
-      height={1000}
-      className="aspect-[1.45/1] w-full rounded-[20px] object-cover transition-transform duration-500 group-hover:scale-[1.02]"
+      width={1600}
+      height={900}
+      className="aspect-video w-full rounded-[20px] object-cover transition-transform duration-500 group-hover:scale-[1.02]"
       onError={() => setBroken(true)}
       sizes="(min-width: 640px) 50vw, 100vw"
     />
@@ -75,7 +73,7 @@ export default function ProjectsGridClient({
         viewport={{ once: true, margin: "-8% 0px", amount: 0.08 }}
       >
         {projects.map((project) => {
-          const thumb = normalizeThumbUrl(project.thumbnail ?? "", project.videoUrl ?? "");
+          const thumb = project.thumbnail ?? "";
           return (
             <motion.article key={project._id} variants={cardVariants}>
               <button
@@ -86,11 +84,13 @@ export default function ProjectsGridClient({
                 <div className="overflow-hidden rounded-[20px] border border-line bg-line">
                   <ProjectThumbnail src={thumb} title={project.title} />
                 </div>
-                <div className="mt-4 flex items-start justify-between gap-4 border-b border-line pb-4">
+                <div className="mt-4 border-b border-line pb-4">
                   <h3 className="text-[32px] font-medium leading-tight tracking-[-0.02em] text-ink transition-colors group-hover:underline">
                     {project.title}
                   </h3>
-                  <span className="shrink-0 text-sm text-muted">{project.category}</span>
+                  <p className="mt-2 truncate text-sm text-muted" title={project.category}>
+                    {project.category}
+                  </p>
                 </div>
               </button>
             </motion.article>
