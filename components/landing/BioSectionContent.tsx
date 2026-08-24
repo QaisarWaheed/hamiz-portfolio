@@ -64,7 +64,7 @@ export default function BioSectionContent({
 
         <span aria-hidden />
 
-        <SectionReveal delay={0.1} className="flex min-h-[459px] max-w-[360px] flex-col justify-between">
+        <SectionReveal delay={0.05} className="flex min-h-[459px] max-w-[360px] flex-col justify-between">
           <div className="flex flex-col gap-[20px]">
             {bodyFirst ? (
               <p className="m-0 text-[18px] font-normal leading-[1.55] tracking-[-0.04em] text-muted">
@@ -92,7 +92,7 @@ export default function BioSectionContent({
           ) : null}
         </SectionReveal>
         {(bodyFirst || bodySecond) && (
-          <SectionReveal delay={0.1} className="mt-10">
+          <SectionReveal delay={0.05} className="mt-10">
             <div className="space-y-5">
               {bodyFirst ? (
                 <p className="text-[18px] font-normal leading-[1.55] tracking-[-0.04em] text-muted">

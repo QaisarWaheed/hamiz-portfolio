@@ -69,4 +69,14 @@ body {
   .contact-section-padding {
     @apply pt-12 pb-24 min-[810px]:pt-[52px] min-[810px]:pb-[158px];
   }
+
+  /**
+   * Desktop portrait first-paint: grayscale + flipped scale before
+   * framer-motion motion values bind (must not flash full-colour).
+   */
+  .portrait-flip-initial {
+    transform: scale(0.5) rotateY(180deg);
+    transform-origin: 50% 100%;
+    transform-style: preserve-3d;
+  }
 }

@@ -1,21 +1,25 @@
 "use client";
 
 import type { LandingServiceDisplay } from "@/lib/landing-fallbacks";
+import {
+  APPEAR_DURATION,
+  APPEAR_EASE_1800,
+  APPEAR_STAGGER,
+  APPEAR_Y,
+} from "@/lib/appear-motion";
 import { motion, useReducedMotion } from "framer-motion";
-
-const ease = [0.22, 1, 0.36, 1] as const;
 
 const listVariants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
+  show: { transition: { staggerChildren: APPEAR_STAGGER } },
 };
 
 const rowVariants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: APPEAR_Y },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.85, ease },
+    transition: { duration: APPEAR_DURATION, ease: APPEAR_EASE_1800 },
   },
 };
 

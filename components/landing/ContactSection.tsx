@@ -2,10 +2,23 @@
 
 import SectionReveal from "@/components/landing/SectionReveal";
 import { SOCIAL_LINKS } from "@/components/landing/landing-content";
+import { APPEAR_STAGGER } from "@/lib/appear-motion";
 import { useEffect, useRef, useState } from "react";
 
-const FIELD_CLASS =
-  "h-11 w-full rounded-xl border border-paper/20 bg-transparent px-3 text-base font-normal text-paper placeholder:text-paper/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-paper/80";
+/** Ref: wrap radius 12 + horizontal pad 12; input border 0 / radius 0.
+ *  Focus: quiet paper border on wrap via :has(:focus-visible) (a11y; ref has none). */
+const INPUT_WRAP =
+  "flex h-11 items-center rounded-[12px] border border-transparent px-3 transition-colors has-[:focus-visible]:border-paper/25 has-[:focus-visible]:bg-paper/[0.04]";
+const INPUT_CLASS =
+  "h-full w-full border-0 bg-transparent text-base font-normal text-paper placeholder:text-paper/50 focus-visible:outline-none";
+
+/** Ref: wrap radius 12; textarea pad 12, border 0, height 140. */
+const TEXTAREA_WRAP =
+  "rounded-[12px] border border-transparent transition-colors has-[:focus-visible]:border-paper/25 has-[:focus-visible]:bg-paper/[0.04]";
+const TEXTAREA_CLASS =
+  "h-[140px] w-full resize-y border-0 bg-transparent p-3 text-base font-normal text-paper placeholder:text-paper/50 focus-visible:outline-none";
+
+const LABEL_CLASS = "mb-2 block text-base font-normal text-paper";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -76,7 +89,11 @@ export default function ContactSection() {
   }
 
   const buttonLabel =
-    status === "sending" ? "Sending…" : status === "success" ? "Sent!" : "Send message";
+    status === "sending"
+      ? "Sending…"
+      : status === "success"
+        ? "Sent!"
+        : "Send message";
 
   return (
     <section id="contact" className="text-ink">
@@ -87,7 +104,7 @@ export default function ContactSection() {
             <p className="mt-4 max-w-xl text-lg font-normal leading-[25.2px] tracking-[-0.04em]">
               Have a project in mind? Fill out the form and I&apos;ll get back to you.
             </p>
-            <div className="mt-8 flex flex-wrap gap-3">
+            <div className="mt-8 flex flex-wrap gap-4">
               {SOCIAL_LINKS.map((link) => (
                 <a
                   key={link.label}
@@ -103,77 +120,84 @@ export default function ContactSection() {
             </div>
           </SectionReveal>
 
-          <SectionReveal delay={0.1} className="min-[810px]:w-[500px] min-[810px]:shrink-0">
+          <SectionReveal delay={APPEAR_STAGGER} className="min-[810px]:w-[500px] min-[810px]:shrink-0">
             <form
               className="flex w-full max-w-[500px] flex-col gap-5 rounded-2xl bg-[#111] p-4 text-paper"
               onSubmit={(e) => void onSubmit(e)}
               noValidate
             >
               <div>
-                <label htmlFor="contact-name" className="mb-1.5 block text-sm text-paper/80">
+                <label htmlFor="contact-name" className={LABEL_CLASS}>
                   Your name
                 </label>
-                <input
-                  id="contact-name"
-                  type="text"
-                  name="name"
-                  placeholder="Your name"
-                  required
-                  className={FIELD_CLASS}
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  autoComplete="name"
-                />
+                <div className={INPUT_WRAP}>
+                  <input
+                    id="contact-name"
+                    type="text"
+                    name="name"
+                    placeholder="Your name"
+                    required
+                    className={INPUT_CLASS}
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    autoComplete="name"
+                  />
+                </div>
               </div>
               <div>
-                <label htmlFor="contact-email" className="mb-1.5 block text-sm text-paper/80">
+                <label htmlFor="contact-email" className={LABEL_CLASS}>
                   Email address
                 </label>
-                <input
-                  id="contact-email"
-                  type="email"
-                  name="email"
-                  placeholder="Email address"
-                  required
-                  className={FIELD_CLASS}
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  autoComplete="email"
-                />
+                <div className={INPUT_WRAP}>
+                  <input
+                    id="contact-email"
+                    type="email"
+                    name="email"
+                    placeholder="Email address"
+                    required
+                    className={INPUT_CLASS}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    autoComplete="email"
+                  />
+                </div>
               </div>
               <div>
-                <label htmlFor="contact-requirements" className="mb-1.5 block text-sm text-paper/80">
+                <label htmlFor="contact-requirements" className={LABEL_CLASS}>
                   Project requirements
                 </label>
-                <textarea
-                  id="contact-requirements"
-                  name="requirements"
-                  placeholder="Project requirements"
-                  rows={4}
-                  required
-                  className={`${FIELD_CLASS} h-auto min-h-[140px] resize-y py-3`}
-                  value={requirements}
-                  onChange={(e) => setRequirements(e.target.value)}
-                />
+                <div className={TEXTAREA_WRAP}>
+                  <textarea
+                    id="contact-requirements"
+                    name="requirements"
+                    placeholder="Project requirements"
+                    required
+                    className={TEXTAREA_CLASS}
+                    value={requirements}
+                    onChange={(e) => setRequirements(e.target.value)}
+                  />
+                </div>
               </div>
               <div>
-                <label htmlFor="contact-references" className="mb-1.5 block text-sm text-paper/80">
+                <label htmlFor="contact-references" className={LABEL_CLASS}>
                   References / links (optional)
                 </label>
-                <input
-                  id="contact-references"
-                  type="text"
-                  name="references"
-                  placeholder="References / links (optional)"
-                  className={FIELD_CLASS}
-                  value={references}
-                  onChange={(e) => setReferences(e.target.value)}
-                />
+                <div className={INPUT_WRAP}>
+                  <input
+                    id="contact-references"
+                    type="text"
+                    name="references"
+                    placeholder="References / links (optional)"
+                    className={INPUT_CLASS}
+                    value={references}
+                    onChange={(e) => setReferences(e.target.value)}
+                  />
+                </div>
               </div>
               <button
                 type="submit"
                 disabled={status === "sending"}
-                className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-paper text-xs font-normal text-ink transition-opacity hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-paper focus-visible:ring-offset-2 focus-visible:ring-offset-[#111] disabled:cursor-not-allowed disabled:opacity-60"
+                className="inline-flex h-11 w-full items-center justify-center rounded-lg bg-paper text-xs font-normal tracking-normal text-ink transition-opacity hover:opacity-90 focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-60"
               >
                 {buttonLabel}
               </button>

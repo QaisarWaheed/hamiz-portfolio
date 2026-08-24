@@ -209,8 +209,8 @@ export default function HeroSection({ bioPanel }: HeroSectionProps) {
               </div>
             ) : (
               <motion.div
-                className="relative h-full w-full"
-                initial={reduceMotion ? false : { rotateY: 180, scale: 0.5 }}
+                className="portrait-flip-initial relative h-full w-full"
+                initial={false}
                 style={{
                   ...desktopFlipStyle,
                   transformStyle: "preserve-3d",

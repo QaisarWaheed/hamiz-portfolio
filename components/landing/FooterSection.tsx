@@ -7,6 +7,7 @@ import {
   FOOTER_QUICK_LINKS,
   FOOTER_WORDMARK,
 } from "@/components/landing/landing-content";
+import { APPEAR_STAGGER } from "@/lib/appear-motion";
 
 export default function FooterSection() {
   return (
@@ -23,7 +24,7 @@ export default function FooterSection() {
             </h2>
           </SectionReveal>
 
-          <SectionReveal delay={0.08}>
+          <SectionReveal delay={APPEAR_STAGGER}>
             <p className="mb-5 text-base font-normal text-paper/70">/Quick links</p>
             <ul className="flex flex-row flex-wrap gap-2">
               {FOOTER_QUICK_LINKS.map((link) => (
@@ -39,7 +40,7 @@ export default function FooterSection() {
             </ul>
           </SectionReveal>
 
-          <SectionReveal delay={0.14}>
+          <SectionReveal delay={APPEAR_STAGGER * 2}>
             <p className="mb-5 text-base font-normal text-paper/70">/Contact</p>
             <a
               href={`mailto:${CONTACT_EMAIL}`}

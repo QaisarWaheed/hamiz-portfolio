@@ -2,24 +2,28 @@
 
 import VideoModal from "@/components/VideoModal";
 import type { ProjectItem } from "@/lib/landing-types";
+import {
+  APPEAR_DURATION,
+  APPEAR_EASE_1800,
+  APPEAR_STAGGER,
+  APPEAR_Y,
+} from "@/lib/appear-motion";
 import { WORK_INDEX_ENABLED, WORK_INDEX_HREF } from "@/lib/projects-view-all";
 import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 
-const ease = [0.22, 1, 0.36, 1] as const;
-
 const gridVariants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.1 } },
+  show: { transition: { staggerChildren: APPEAR_STAGGER } },
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 16 },
+  hidden: { opacity: 0, y: APPEAR_Y },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.85, ease },
+    transition: { duration: APPEAR_DURATION, ease: APPEAR_EASE_1800 },
   },
 };
 
