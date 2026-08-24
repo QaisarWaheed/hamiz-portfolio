@@ -40,7 +40,9 @@ export default function BioSectionContent({
   const [bodyFirst, bodySecond] = bodyParagraphs;
 
   return (
-    <div className="section-container pb-12 pt-12 min-[810px]:max-w-none min-[810px]:px-[50px] min-[810px]:pb-[69px] min-[810px]:pt-[421px]">
+    // Centered 1180 shell like the hero portrait. No desktop horizontal padding at
+    // ≥1280 — gutters come from mx-auto; px-50 only 810–1279; px-6 on mobile.
+    <div className="mx-auto max-w-[1180px] px-6 pb-12 pt-12 min-[810px]:px-[50px] min-[810px]:pb-[69px] min-[810px]:pt-[421px] min-[1280px]:px-0">
       {/* Desktop — three columns; centre gap reserved for sticky hero portrait */}
       <div className="hidden min-[810px]:grid min-[810px]:grid-cols-[300px_90px_400px_30px_360px] min-[810px]:items-start">
         <div className="flex min-h-[459px] max-w-[300px] flex-col justify-between">

@@ -123,7 +123,7 @@ export default function HeroSection({ bioPanel }: HeroSectionProps) {
       </div>
 
       {/* Desktop: sticky 100vh stage. Mobile: plain 100vh (no pin). */}
-      <div className="relative h-screen w-full min-[810px]:sticky min-[810px]:top-0 min-[810px]:overflow-hidden">
+      <div className="relative z-[1] h-screen w-full min-[810px]:sticky min-[810px]:top-0 min-[810px]:overflow-hidden">
         <div className="relative mx-auto h-full w-full max-w-[1180px] px-6 min-[810px]:px-[50px]">
           {/* Mobile sparks — static in viewport */}
           <div
@@ -190,7 +190,7 @@ export default function HeroSection({ bioPanel }: HeroSectionProps) {
             Back face: full colour, no filter → visible at parent rotateY 0.
           */}
           <div
-            className="absolute left-1/2 z-10 top-[424px] -ml-[200px] hidden h-[456px] w-[400px] min-[810px]:block"
+            className="absolute left-1/2 z-[1] top-[424px] -ml-[200px] hidden h-[456px] w-[400px] min-[810px]:block"
             style={{ perspective: PORTRAIT_PERSPECTIVE }}
           >
             {reduceMotion ? (
@@ -270,7 +270,7 @@ export default function HeroSection({ bioPanel }: HeroSectionProps) {
       </div>
 
       {bioPanel ? (
-        <section id="bio-section" className="relative min-[810px]:min-h-screen">
+        <section id="bio-section" className="relative z-[2] min-[810px]:min-h-screen">
           {bioPanel}
         </section>
       ) : null}
