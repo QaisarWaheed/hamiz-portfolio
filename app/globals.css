@@ -79,18 +79,17 @@ body {
     transform-origin: 50% 100%;
     transform-style: preserve-3d;
   }
+}
 
-  /** Quiet keyboard focus on contact fields — visible on #111 card. */
-  .contact-field-wrap {
-    border: 1px solid transparent;
-    transition:
-      border-color 150ms ease,
-      background-color 150ms ease;
-  }
+/** Quiet keyboard focus on contact fields — unlayered so it wins over TW utilities on #111. */
+.contact-field-wrap {
+  border: 1px solid transparent;
+  transition:
+    border-color 150ms ease,
+    background-color 150ms ease;
+}
 
-  .contact-field-wrap:has(:focus-visible) {
-    /* paper #f4f1eb — hardcoded so focus stays visible regardless of token resolution */
-    border-color: rgba(244, 241, 235, 0.32);
-    background-color: rgba(244, 241, 235, 0.07);
-  }
+.contact-field-wrap:has(:focus-visible) {
+  border-color: rgba(244, 241, 235, 0.32);
+  background-color: rgba(244, 241, 235, 0.07);
 }
