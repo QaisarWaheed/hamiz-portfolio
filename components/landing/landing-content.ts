@@ -2,6 +2,9 @@
 
 export const CLIENT_NAME = "Hamiz Khan";
 
+/** Oversized footer crop mark — first name only; nav keeps CLIENT_NAME. */
+export const FOOTER_WORDMARK = "HAMIZ";
+
 export const PORTRAIT_URL = "/hamiz.jpeg";
 /** Source dimensions for client portrait asset (3:4). */
 export const PORTRAIT_ASPECT = "3 / 4" as const;

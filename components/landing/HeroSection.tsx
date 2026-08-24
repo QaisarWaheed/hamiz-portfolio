@@ -210,6 +210,7 @@ export default function HeroSection({ bioPanel }: HeroSectionProps) {
             ) : (
               <motion.div
                 className="relative h-full w-full"
+                initial={reduceMotion ? false : { rotateY: 180, scale: 0.5 }}
                 style={{
                   ...desktopFlipStyle,
                   transformStyle: "preserve-3d",
@@ -218,7 +219,10 @@ export default function HeroSection({ bioPanel }: HeroSectionProps) {
               >
                 <div
                   className="absolute inset-0 overflow-hidden rounded-[20px]"
-                  style={{ ...backfaceHidden, transform: "rotateY(180deg)" }}
+                  style={{
+                    ...backfaceHidden,
+                    transform: "rotateY(180deg) translateZ(0.1px)",
+                  }}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img

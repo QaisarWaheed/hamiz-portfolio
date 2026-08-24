@@ -1,13 +1,13 @@
 "use client";
 
 import type { LandingServiceDisplay } from "@/lib/landing-fallbacks";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 
-const ease = [0.25, 0.1, 0.25, 1] as const;
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const listVariants = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.06 } },
+  show: { transition: { staggerChildren: 0.08 } },
 };
 
 const rowVariants = {
@@ -15,7 +15,7 @@ const rowVariants = {
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease },
+    transition: { duration: 0.85, ease },
   },
 };
 
@@ -44,13 +44,33 @@ type ServicesListProps = {
 };
 
 export default function ServicesList({ services }: ServicesListProps) {
+  const reduceMotion = useReducedMotion();
+
+  if (reduceMotion) {
+    return (
+      <ul className="mt-12 border-t border-line">
+        {services.map((service) => (
+          <li
+            key={service.label}
+            className="group border-b border-line py-[30px] transition-colors hover:border-ink/30 max-[809px]:block min-[810px]:flex min-[810px]:items-center min-[810px]:justify-between"
+          >
+            <span className="block text-[28px] font-medium tracking-[-0.05em] text-ink transition-transform duration-300 group-hover:translate-x-1 min-[810px]:text-[32px]">
+              {service.label}
+            </span>
+            <ServiceTags detail={service.detail} />
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
   return (
     <motion.ul
       className="mt-12 border-t border-line"
       variants={listVariants}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, margin: "-8% 0px", amount: 0.1 }}
+      viewport={{ once: true, margin: "0px 0px -6% 0px", amount: 0.15 }}
     >
       {services.map((service) => (
         <motion.li

@@ -45,7 +45,7 @@ export default function BioSectionContent({
     <div className="mx-auto max-w-[1180px] px-6 pb-12 pt-12 min-[810px]:px-[50px] min-[810px]:pb-[69px] min-[810px]:pt-[421px] min-[1280px]:px-0">
       {/* Desktop — three columns; centre gap reserved for sticky hero portrait */}
       <div className="hidden min-[810px]:grid min-[810px]:grid-cols-[300px_90px_400px_30px_360px] min-[810px]:items-start">
-        <div className="flex min-h-[459px] max-w-[300px] flex-col justify-between">
+        <SectionReveal className="flex min-h-[459px] max-w-[300px] flex-col justify-between">
           <h2 className="m-0 text-[56px] font-semibold leading-none tracking-[-0.02em] text-ink">
             {headline}
           </h2>
@@ -56,7 +56,7 @@ export default function BioSectionContent({
           ) : (
             <span aria-hidden />
           )}
-        </div>
+        </SectionReveal>
 
         <span aria-hidden />
 
@@ -64,7 +64,7 @@ export default function BioSectionContent({
 
         <span aria-hidden />
 
-        <div className="flex min-h-[459px] max-w-[360px] flex-col justify-between">
+        <SectionReveal delay={0.1} className="flex min-h-[459px] max-w-[360px] flex-col justify-between">
           <div className="flex flex-col gap-[20px]">
             {bodyFirst ? (
               <p className="m-0 text-[18px] font-normal leading-[1.55] tracking-[-0.04em] text-muted">
@@ -78,7 +78,7 @@ export default function BioSectionContent({
             ) : null}
           </div>
           <BioGetStartedLink />
-        </div>
+        </SectionReveal>
       </div>
 
       {/* Mobile — single column, no centre reserve */}

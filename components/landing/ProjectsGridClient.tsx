@@ -3,11 +3,11 @@
 import VideoModal from "@/components/VideoModal";
 import type { ProjectItem } from "@/lib/landing-types";
 import { WORK_INDEX_ENABLED, WORK_INDEX_HREF } from "@/lib/projects-view-all";
-import { motion } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
 
-const ease = [0.25, 0.1, 0.25, 1] as const;
+const ease = [0.22, 1, 0.36, 1] as const;
 
 const gridVariants = {
   hidden: {},
@@ -15,11 +15,11 @@ const gridVariants = {
 };
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 24 },
+  hidden: { opacity: 0, y: 16 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.55, ease },
+    transition: { duration: 0.85, ease },
   },
 };
 
@@ -61,42 +61,56 @@ export default function ProjectsGridClient({
 }: ProjectsGridClientProps) {
   const [modal, setModal] = useState<ProjectItem | null>(null);
   const showViewAll = WORK_INDEX_ENABLED && total > displayLimit;
+  const reduceMotion = useReducedMotion();
+
+  const gridClassName = "mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2";
+
+  const cards = projects.map((project) => {
+    const thumb = project.thumbnail ?? "";
+    const body = (
+      <button
+        type="button"
+        onClick={() => setModal(project)}
+        className="group w-full text-left"
+      >
+        <div className="overflow-hidden rounded-[20px] border border-line bg-line">
+          <ProjectThumbnail src={thumb} title={project.title} />
+        </div>
+        <div className="mt-4 border-b border-line pb-4">
+          <h3 className="text-[32px] font-medium leading-tight tracking-[-0.02em] text-ink transition-colors group-hover:underline">
+            {project.title}
+          </h3>
+          <p className="mt-2 truncate text-sm text-muted" title={project.category}>
+            {project.category}
+          </p>
+        </div>
+      </button>
+    );
+    return reduceMotion ? (
+      <article key={project._id}>{body}</article>
+    ) : (
+      <motion.article key={project._id} variants={cardVariants}>
+        {body}
+      </motion.article>
+    );
+  });
 
   return (
     <>
       {/* Projects: fixed 2 columns from sm+ (1 on mobile). Odd counts may leave a half-row — intentional. */}
-      <motion.div
-        className="mt-12 grid grid-cols-1 gap-4 sm:grid-cols-2"
-        variants={gridVariants}
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, margin: "-8% 0px", amount: 0.08 }}
-      >
-        {projects.map((project) => {
-          const thumb = project.thumbnail ?? "";
-          return (
-            <motion.article key={project._id} variants={cardVariants}>
-              <button
-                type="button"
-                onClick={() => setModal(project)}
-                className="group w-full text-left"
-              >
-                <div className="overflow-hidden rounded-[20px] border border-line bg-line">
-                  <ProjectThumbnail src={thumb} title={project.title} />
-                </div>
-                <div className="mt-4 border-b border-line pb-4">
-                  <h3 className="text-[32px] font-medium leading-tight tracking-[-0.02em] text-ink transition-colors group-hover:underline">
-                    {project.title}
-                  </h3>
-                  <p className="mt-2 truncate text-sm text-muted" title={project.category}>
-                    {project.category}
-                  </p>
-                </div>
-              </button>
-            </motion.article>
-          );
-        })}
-      </motion.div>
+      {reduceMotion ? (
+        <div className={gridClassName}>{cards}</div>
+      ) : (
+        <motion.div
+          className={gridClassName}
+          variants={gridVariants}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "0px 0px -6% 0px", amount: 0.15 }}
+        >
+          {cards}
+        </motion.div>
+      )}
 
       {showViewAll ? (
         <p className="mt-10 text-center">

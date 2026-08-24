@@ -5,7 +5,7 @@ import { SOCIAL_LINKS } from "@/components/landing/landing-content";
 import { useEffect, useRef, useState } from "react";
 
 const FIELD_CLASS =
-  "h-11 w-full border-0 bg-transparent text-base font-normal text-paper placeholder:text-paper/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-paper/80";
+  "h-11 w-full rounded-xl border border-paper/20 bg-transparent px-3 text-base font-normal text-paper placeholder:text-paper/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-paper/80";
 
 type Status = "idle" | "sending" | "success" | "error";
 
@@ -151,7 +151,7 @@ export default function ContactSection() {
                   placeholder="Project requirements"
                   rows={4}
                   required
-                  className={`${FIELD_CLASS} h-auto min-h-[88px] resize-none py-2`}
+                  className={`${FIELD_CLASS} h-auto min-h-[140px] resize-y py-3`}
                   value={requirements}
                   onChange={(e) => setRequirements(e.target.value)}
                 />

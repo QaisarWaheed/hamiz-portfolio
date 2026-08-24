@@ -1,10 +1,11 @@
 "use client";
 
+import SectionReveal from "@/components/landing/SectionReveal";
 import {
-  CLIENT_NAME,
   CONTACT_EMAIL,
   FOOTER_HEADLINE_LINES,
   FOOTER_QUICK_LINKS,
+  FOOTER_WORDMARK,
 } from "@/components/landing/landing-content";
 
 export default function FooterSection() {
@@ -12,7 +13,7 @@ export default function FooterSection() {
     <footer className="overflow-hidden bg-[#111] pt-20 text-paper min-[810px]:pt-[120px]">
       <div className="section-container">
         <div className="grid gap-[50px] min-[810px]:grid-cols-[1.2fr_1fr_1fr]">
-          <div>
+          <SectionReveal>
             <h2 className="text-[48px] font-semibold leading-none tracking-[-0.02em] min-[810px]:text-[68px]">
               {FOOTER_HEADLINE_LINES.map((line) => (
                 <span key={line} className="block">
@@ -20,9 +21,9 @@ export default function FooterSection() {
                 </span>
               ))}
             </h2>
-          </div>
+          </SectionReveal>
 
-          <div>
+          <SectionReveal delay={0.08}>
             <p className="mb-5 text-base font-normal text-paper/70">/Quick links</p>
             <ul className="flex flex-row flex-wrap gap-2">
               {FOOTER_QUICK_LINKS.map((link) => (
@@ -36,9 +37,9 @@ export default function FooterSection() {
                 </li>
               ))}
             </ul>
-          </div>
+          </SectionReveal>
 
-          <div>
+          <SectionReveal delay={0.14}>
             <p className="mb-5 text-base font-normal text-paper/70">/Contact</p>
             <a
               href={`mailto:${CONTACT_EMAIL}`}
@@ -46,13 +47,13 @@ export default function FooterSection() {
             >
               {CONTACT_EMAIL}
             </a>
-          </div>
+          </SectionReveal>
         </div>
 
         <p
           className="pointer-events-none mt-20 -mb-[100px] select-none text-[417px] font-bold uppercase leading-none tracking-[-0.02em] text-paper/10 min-[810px]:mt-[110px]"
         >
-          {CLIENT_NAME}
+          {FOOTER_WORDMARK}
         </p>
       </div>
     </footer>

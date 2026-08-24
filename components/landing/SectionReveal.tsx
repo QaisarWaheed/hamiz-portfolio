@@ -1,29 +1,38 @@
 "use client";
 
-import { motion, type HTMLMotionProps } from "framer-motion";
+import { motion, useReducedMotion } from "framer-motion";
+import type { ReactNode } from "react";
 
-type SectionRevealProps = HTMLMotionProps<"div"> & {
+type SectionRevealProps = {
+  children: ReactNode;
+  className?: string;
   delay?: number;
 };
+
+const EASE = [0.22, 1, 0.36, 1] as const;
 
 export default function SectionReveal({
   children,
   className,
   delay = 0,
-  ...rest
 }: SectionRevealProps) {
+  const reduceMotion = useReducedMotion();
+
+  if (reduceMotion) {
+    return <div className={className}>{children}</div>;
+  }
+
   return (
     <motion.div
       className={className}
-      initial={{ opacity: 0, y: 28 }}
+      initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-8% 0px", amount: 0.15 }}
+      viewport={{ once: true, margin: "0px 0px -6% 0px", amount: 0.2 }}
       transition={{
-        duration: 0.65,
+        duration: 0.95,
         delay,
-        ease: [0.25, 0.1, 0.25, 1],
+        ease: EASE,
       }}
-      {...rest}
     >
       {children}
     </motion.div>
