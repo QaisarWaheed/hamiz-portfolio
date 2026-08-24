@@ -108,6 +108,17 @@ export async function getProjectsForLanding(): Promise<{
   }
 }
 
+export async function getAllProjectsForWorkIndex(): Promise<ProjectItem[]> {
+  try {
+    await connectDB();
+    const docs = await Project.find().sort(SORT).lean();
+    return docs.map((d) => toProjectItem(d as Record<string, unknown>));
+  } catch (e) {
+    console.error("[data/projects] getAllProjectsForWorkIndex failed:", e);
+    return [];
+  }
+}
+
 export async function countProjects(): Promise<number> {
   try {
     await connectDB();
