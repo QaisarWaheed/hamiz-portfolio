@@ -26,9 +26,9 @@ function TestimonialAvatar({ item }: { item: TestimonialItem }) {
       <Image
         src={url}
         alt=""
-        width={48}
-        height={48}
-        className="h-12 w-12 shrink-0 rounded-full border border-line object-cover"
+        width={50}
+        height={50}
+        className="h-[50px] w-[50px] shrink-0 rounded-full object-cover"
         onError={() => setBroken(true)}
       />
     );
@@ -36,7 +36,7 @@ function TestimonialAvatar({ item }: { item: TestimonialItem }) {
 
   return (
     <div
-      className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-line bg-paper text-sm font-semibold tracking-wide text-ink"
+      className="flex h-[50px] w-[50px] shrink-0 items-center justify-center rounded-full bg-[#242424] text-sm font-semibold tracking-wide text-[#FAF7F3]"
       aria-hidden
     >
       {initials(item.name)}
@@ -102,15 +102,23 @@ export default function TestimonialsGrid({ items }: TestimonialsGridProps) {
             <motion.article
               key={item._id}
               variants={cardVariants}
-              className="flex h-full flex-col justify-between border border-line bg-paper p-6 sm:p-8"
+              className="flex h-full min-h-[340px] flex-col justify-between rounded-[20px] bg-[#111111] p-5"
             >
-              <p className="text-base leading-relaxed text-ink">&ldquo;{item.message}&rdquo;</p>
+              <p className="text-[18px] font-normal leading-[1.4em] tracking-[-0.04em] text-[#FAF7F3]">
+                &ldquo;{item.message}&rdquo;
+              </p>
               <div className="mt-8 flex items-end justify-between gap-4">
                 <div className="flex min-w-0 items-center gap-4">
                   <TestimonialAvatar item={item} />
                   <div className="min-w-0">
-                    <p className="font-medium text-ink">{item.name}</p>
-                    {item.role ? <p className="text-sm text-muted">{item.role}</p> : null}
+                    <p className="text-[16px] font-normal leading-[22.4px] tracking-[-0.04em] text-[#FAF7F3]">
+                      {item.name}
+                    </p>
+                    {item.role ? (
+                      <p className="text-[16px] font-light leading-[22.4px] tracking-[-0.04em] text-[#FAF7F3]">
+                        {item.role}
+                      </p>
+                    ) : null}
                   </div>
                 </div>
                 {item.companyLogo ? <CompanyLogo url={item.companyLogo} /> : null}
