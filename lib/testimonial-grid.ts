@@ -6,8 +6,8 @@ const TESTIMONIAL_MAX_COLUMNS = 4;
 
 const TESTIMONIAL_GRID_BY_COUNT: Record<number, string> = {
   1: "grid-cols-1",
-  2: "grid-cols-1 sm:grid-cols-2",
-  3: "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+  2: "grid-cols-1 md:grid-cols-2",
+  3: "grid-cols-1 md:grid-cols-3",
 };
 
 /** 4+ items: 1 col mobile, 2 md (even rows for multiples of 2), 4 lg (reference 4-up). */
