@@ -26,7 +26,7 @@ export const HERO_COPYRIGHT = "©2026";
 export const HERO_CREDIT_LINE = "/CREATING SINCE 2020";
 
 export const QUOTE_COPY =
-  "From idea to launch. Clean, scalable digital products built to move fast, stay simple, and perform in real-world use, driven by clarity, structured systems, and intentional design.";
+  "I make research-heavy science content myself, so I know how much work happens before a video ever reaches the timeline. The research, the structure, the difficult ideas, the endless decisions about what stays and what gets cut. When I edit for someone else, I bring that same understanding to the footage, finding the story, simplifying what feels dense, building the right rhythm, and taking the editing burden off your plate.";
 
 export const FOOTER_HEADLINE_LINES = [
   "Let's shape",
