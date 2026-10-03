@@ -37,10 +37,10 @@ export const FOOTER_HEADLINE_LINES = [
 export const CONTACT_EMAIL = "hello@hamizkhan.com";
 
 export const SOCIAL_LINKS = [
-  { href: "https://x.com/", label: "X" },
-  { href: "https://www.instagram.com/", label: "Instagram" },
-  { href: "https://www.linkedin.com/", label: "LinkedIn" },
-  { href: "https://www.youtube.com/", label: "YouTube" },
+  { href: "https://x.com/ntrovertsdiary", label: "X" },
+  { href: "https://www.instagram.com/ntrovertsdiary", label: "Instagram" },
+  { href: "https://www.linkedin.com/in/hamiz-khan-videoediting", label: "LinkedIn" },
+  { href: "https://www.youtube.com/@ntrovertsdiary", label: "YouTube" },
 ] as const;
 
 export const NAV_LINKS = [
