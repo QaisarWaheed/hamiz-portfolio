@@ -14,7 +14,6 @@
 /coverage
 
 # env files
-/.env
 /.env.example
 /.env.local
 
@@ -54,6 +53,5 @@ next-env.d.ts
 /scripts/section-audit.ts
 /scripts/verify-*.mjs
 
-config.bat
 temp_auto_push.bat
 temp_interactive_push.bat
